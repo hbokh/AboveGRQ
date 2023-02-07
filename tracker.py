@@ -120,7 +120,7 @@ def Tweet(a, havescreenshot):
 		TOOT_FILES = [
 				"tweet.png",
 		]
-		files_root = Path("/Users/hbokh/.virtualenvs/OverPutney")
+		files_root = Path("$HOME/.virtualenvs/AboveGRQ")
 		media_ids = []
 		for file in TOOT_FILES:
 			test_file = files_root / file
