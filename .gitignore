@@ -1,0 +1,28 @@
+# Added specificly for AboveTustin.  Have to hide the logs and keys folders
+logs/
+keys/
+
+#ignore the file config.ini:
+config.ini
+
+#ignore nohup.out
+nohup.out
+
+
+#ignore tweet.png the image it saves on each tweet:
+tweet.png
+
+#ignore the ghostscript log:
+*.log
+
+#ignore my enviromental variables:
+__pycache__/
+bin/
+include
+lib
+pyvenv.cfg
+share
+
+#ignore other things that happen to be there:
+.DS_Store
+._.DS_Store
