@@ -18,6 +18,7 @@ import fa_api
 import flightdata
 import geomath
 import screenshot
+import aircraftdata
 
 # Read the configuration file for this application.
 parser = ConfigParser()
@@ -34,9 +35,10 @@ fa_enable = parser.getboolean('flightaware', 'fa_enable')
 fa_username = parser.get('flightaware', 'fa_username')
 fa_api_key = parser.get('flightaware', 'fa_api_key')
 
-# Assign Mastodon variables.
+# Mastodon variables.
 mastodon_host = parser.get('mastodon', 'host')
 mastodon_access_token = parser.get('mastodon', 'access_token')
+
 
 # Given an aircraft 'a' tweet / toot.
 # If we have a screenshot, upload it to Mastodon with the tweet.
@@ -48,6 +50,10 @@ def Tweet(a, havescreenshot):
 	templateArgs['flight'] = flight
 	templateArgs['icao'] = a.hex
 	templateArgs['icao'] = templateArgs['icao'].replace(" ", "")
+	templateArgs['regis'] = aircraftdata.regis(a.hex)
+	templateArgs['plane'] = aircraftdata.plane(a.hex)
+	templateArgs['oper'] = aircraftdata.oper(a.hex)
+	templateArgs['route'] = aircraftdata.route(flight)
 	templateArgs['dist_mi'] = "%.1f" % a.distance
 	templateArgs['dist_km'] = "%.1f" % geomath.mi2km(a.distance)
 	templateArgs['dist_nm'] = "%.1f" % geomath.mi2nm(a.distance)
@@ -85,12 +91,12 @@ def Tweet(a, havescreenshot):
 			tweet = Template(parser.get('tweet', 'tweet_template')).substitute(templateArgs)
 	else:
 		tweet = Template(parser.get('tweet', 'tweet_template')).substitute(templateArgs)
-	# conditional hashtags:
+	#conditional hashtags:
 	hashtags = []
-	if a.time.hour < 7 or a.time.hour >= 23 or (a.time.weekday() == 7 and a.time.hour < 8):
+	if a.time.hour < 6 or a.time.hour >= 22 or (a.time.weekday() == 7 and a.time.hour < 8):
 		hashtags.append(" #AfterHours")
 	if a.altitude < 1000:
-		hashtags.append(" #2CloseForComfort")
+		hashtags.append(" #LowFlier")
 	if a.altitude >= 1000 and a.altitude < 2500 and (templateArgs['heading'] == "S" or templateArgs['heading'] == "SW"):
 		hashtags.append(" #ProbablyLanding")
 	if a.altitude > 20000 and a.altitude < 35000:
@@ -114,7 +120,7 @@ def Tweet(a, havescreenshot):
 		if len(tweet) + len(hash) <= 499:
 			tweet += " " + hash
 
-	# Send toot to Mastodon host
+  # Send toot to Mastodon host
 	# Referenece: https://roytang.net/2021/11/mastodon-api-python/
 	if havescreenshot:
 		TOOT_FILES = [

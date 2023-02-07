@@ -15,7 +15,7 @@ def regis(hex):
 
 def plane(hex):
         """
-        Gets plane from hex
+        Gets plane type from hex
         """
         if hex == None:
                  return None
@@ -26,7 +26,7 @@ def plane(hex):
 
 def oper(hex):
         """
-        Gets plane from hex
+        Gets airline from hex
         """
         if hex == None:
                  return None
