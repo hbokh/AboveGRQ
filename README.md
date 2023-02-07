@@ -1,10 +1,12 @@
 # ✈️ Above GRQ
 
-An ADS-B Mastodon Bot.\
-Uses [dump1090-fa](https://github.com/flightaware/dump1090) to track airplanes and toots whenever an airplane flies overhead.\
-The Twitter dependencies have been replaced with basic [posting via the Mastodon API using Python](https://roytang.net/2021/11/mastodon-api-python/).
+*An ADS-B Mastodon Bot, derived from [AboveTustin](https://github.com/kevinabrandon/AboveTustin) (a Twitter bot).*
 
-**NOTE**: this is [Frankencode](https://www.urbandictionary.com/define.php?term=Frankencode)!!
+The original Twitter dependencies have been replaced with basic [posting via the Mastodon API using Python](https://roytang.net/2021/11/mastodon-api-python/).
+
+Uses [dump1090-fa](https://github.com/flightaware/dump1090) to track airplanes and toots whenever an airplane flies nearby Groningen Airport Eelde (IATA: **[GRQ](https://www.wikiwand.com/en/Groningen_Airport_Eelde)**), ICAO: **EHGG**).
+
+**WARNING**: this is [Frankencode](https://www.urbandictionary.com/define.php?term=Frankencode)!!
 
 ## Dependencies
 
@@ -25,6 +27,7 @@ The Twitter dependencies have been replaced with basic [posting via the Mastodon
 
 ## Todo
 
-[ ] Fix "Loading image..." in screenshots.\
-[ ] Replace Google Chrome / Chromedriver.\
-[ ] Use latest Python 3.x version.
+- [x] Replace Twitter with Mastodon.
+- [ ] Fix "Loading image..." in screenshots.
+- [ ] Replace Google Chrome / Chromedriver.
+- [ ] Use latest Python 3.x version.
