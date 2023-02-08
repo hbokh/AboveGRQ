@@ -1,4 +1,5 @@
-# Using the api.joshdouch.me calls to get data from ICAO hex
+# Using the hexdb.io calls to get data from ICAO hex
+# Reference: https://hexdb.io/
 
 import requests
 
@@ -8,9 +9,9 @@ def regis(hex):
         """
         if hex == None:
                  return None
-        regis = requests.get(f"https://api.joshdouch.me/hex-reg.php?hex={hex}")
+        regis = requests.get(f"https://hexdb.io/hex-reg?hex={hex}")
         if regis.text == "n/a":
-                regis.text="None"
+                regis.text=""
         return regis.text
 
 def plane(hex):
@@ -19,9 +20,9 @@ def plane(hex):
         """
         if hex == None:
                  return None
-        plane = requests.get(f"https://api.joshdouch.me/hex-type.php?hex={hex}")
+        plane = requests.get(f"https://hexdb.io/hex-type?hex={hex}")
         if plane.text == "n/a":
-                plane.text="None"
+                plane.text=""
         return plane.text
 
 def oper(hex):
@@ -30,9 +31,9 @@ def oper(hex):
         """
         if hex == None:
                  return None
-        oper = requests.get(f"https://api.joshdouch.me/hex-airline.php?hex={hex}")
+        oper = requests.get(f"https://hexdb.io/hex-airline?hex={hex}")
         if oper.text == "n/a":
-                oper.text = "None"
+                oper.text = ""
         return oper.text
 
 def route(flight):
@@ -41,13 +42,13 @@ def route(flight):
         """
         if flight == None:
                          return None
-        # ICAOroute = requests.get(f"https://api.joshdouch.me/callsign-route.php?callsign={flight}")
-        origin = requests.get(f"https://api.joshdouch.me/callsign-origin_ICAO.php?callsign={flight}")
-        destination = requests.get(f"https://api.joshdouch.me/callsign-des_ICAO.php?callsign={flight}")
-        origin_IATA = requests.get(f"https://api.joshdouch.me/ICAO-IATA.php?icao={origin.text}")
-        destination_IATA = requests.get(f"https://api.joshdouch.me/ICAO-IATA.php?icao={destination.text}")
-        origin_name = requests.get(f"https://api.joshdouch.me/ICAO-airport.php?icao={origin.text}")
-        destination_name = requests.get(f"https://api.joshdouch.me/ICAO-airport.php?icao={destination.text}")
+        # ICAOroute = requests.get(f"https://hexdb.io/callsign-route?callsign={flight}")
+        origin = requests.get(f"https://hexdb.io/callsign-origin_icao?callsign={flight}")
+        destination = requests.get(f"https://hexdb.io/callsign-des_icao?callsign={flight}")
+        origin_IATA = requests.get(f"https://hexdb.io/icao-iata?icao={origin.text}")
+        destination_IATA = requests.get(f"https://hexdb.io/icao-iata?icao={destination.text}")
+        origin_name = requests.get(f"https://hexdb.io/icao-airport?icao={origin.text}")
+        destination_name = requests.get(f"https://hexdb.io/icao-airport?icao={destination.text}")
 
         route = origin_IATA.text + "-" + destination_IATA.text + " " + origin_name.text + " to " + destination_name.text
         # route = destination.text + "-" + origin.text
