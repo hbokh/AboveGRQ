@@ -10,7 +10,7 @@ def regis(hex):
                  return None
         regis = requests.get(f"https://api.joshdouch.me/hex-reg.php?hex={hex}")
         if regis.text == "n/a":
-                regis.text=""
+                regis.text="None"
         return regis.text
 
 def plane(hex):
@@ -21,7 +21,7 @@ def plane(hex):
                  return None
         plane = requests.get(f"https://api.joshdouch.me/hex-type.php?hex={hex}")
         if plane.text == "n/a":
-                plane.text=""
+                plane.text="None"
         return plane.text
 
 def oper(hex):
@@ -32,7 +32,7 @@ def oper(hex):
                  return None
         oper = requests.get(f"https://api.joshdouch.me/hex-airline.php?hex={hex}")
         if oper.text == "n/a":
-                oper.text = ""
+                oper.text = "None"
         return oper.text
 
 def route(flight):
