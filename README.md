@@ -10,6 +10,12 @@ Uses [dump1090-fa](https://github.com/flightaware/dump1090) to track airplanes a
 Currently it runs on my MacBook Pro (macOS 11.7 with Homebrew packages).\
 Look for `CHANGE THIS!!` entries in the code for personal changes that might need to be made.
 
+## Screenshot
+
+Obligatory screenshot, taken with [Ivory](https://tapbots.com/ivory/) for iOS:
+
+![IMG_0189](https://user-images.githubusercontent.com/519955/217902537-7371c254-55d5-4ccc-a179-db6b1c48c952.jpg)
+
 ## Dependencies
 
 - Use Python 3.9 (to bypass some weird incompatabilities with 3.10) and [venv](https://docs.python.org/3/library/venv.html).
