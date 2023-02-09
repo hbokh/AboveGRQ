@@ -28,6 +28,6 @@ Uses [dump1090-fa](https://github.com/flightaware/dump1090) to track airplanes a
 ## Todo
 
 - [x] Replace Twitter with Mastodon.
-- [ ] Fix "Loading image..." in screenshots.
+- [ ] Fix "Loading image..." in screenshots when in headless mode.
 - [ ] Replace Google Chrome / Chromedriver.
 - [ ] Use latest Python 3.x version.

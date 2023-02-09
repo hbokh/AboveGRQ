@@ -124,7 +124,7 @@ def Tweet(a, havescreenshot):
 	# Referenece: https://roytang.net/2021/11/mastodon-api-python/
 	if havescreenshot:
 		TOOT_FILES = [
-				"tweet.png",
+				"toot.png",
 		]
 		files_root = Path("/Users/hbokh/.virtualenvs/AboveGRQ")  # CHANGE THIS !!
 		media_ids = []

@@ -18,5 +18,5 @@ do
 	echo '***** AboveGRQ exited ' `date --utc --rfc-3339=ns`
 	echo
 
-	sleep 5
+	sleep 60  # Don't restart too quick so there is time to kill
 done

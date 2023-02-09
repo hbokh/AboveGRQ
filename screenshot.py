@@ -32,8 +32,11 @@ capabilities['chrome.page.settings.resourceTimeout'] = "20000"
 # capabilities['firefox.page.settings.resourceTimeout'] = "20000"
 
 options = webdriver.ChromeOptions()
+options.binary_location = "/Applications/Chromium.app/Contents/MacOS/Chromium"
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--lang=en_US")
+options.add_argument("--user-agent=Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25");
 options.add_argument("--headless")
 # options = webdriver.FirefoxOptions()
 # options.add_argument("--headless")
@@ -185,8 +188,8 @@ class Dump1090Display(AircraftDisplay):
             if len(element) > 0:
                 print("clicking on {}!".format(text))
                 element[0].click()
-                time.sleep(2.5)  # if we don't wait a little bit the airplane icon isn't drawn.
-                return self.screenshot('tweet.png')
+                time.sleep(1.5)  # if we don't wait a little bit the airplane icon isn't drawn.
+                return self.screenshot('toot.png')
             else:
                 print("couldn't find the object")
         except Exception as e:
@@ -232,7 +235,7 @@ class VRSDisplay(AircraftDisplay):
             show_on_map = self.browser.find_element_by_link_text('Show on map')
             show_on_map.click()
             time.sleep(3.0)
-            return self.screenshot('tweet.png')
+            return self.screenshot('toot.png')
         except Exception as e:
             util.error("Unable to click on airplane: {}'".format(e))
             return None

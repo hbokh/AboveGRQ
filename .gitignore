@@ -9,8 +9,8 @@ config.ini
 nohup.out
 
 
-#ignore tweet.png the image it saves on each tweet:
-tweet.png
+#ignore toot.png the image it saves on each tweet:
+toot.png
 
 #ignore the ghostscript log:
 *.log
