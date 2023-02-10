@@ -64,7 +64,7 @@ if parser.has_section('crop'):
         try:
             from PIL import Image
             from io import BytesIO
-            print('will crop')
+            print('Will crop')
         except ImportError:
             print('Image manipulation module "Pillow" not found, cropping disabled')
             do_crop = False
@@ -95,7 +95,7 @@ class AircraftDisplay(object):
         Takes a screenshot of the browser
         '''
         if do_crop:
-            print('cropping screenshot')
+            print('Cropping screenshot')
             #  Grab screenshot rather than saving
             im = self.browser.get_screenshot_as_png()
             im = Image.open(BytesIO(im))
@@ -105,7 +105,7 @@ class AircraftDisplay(object):
             im.save(name)
         else:
             self.browser.save_screenshot(name)
-        print("success saving screenshot: %s" % name)
+        print("Success saving screenshot: %s" % name)
         return name
 
     def ClickOnAirplane(self, ident):
@@ -127,13 +127,13 @@ class Dump1090Display(AircraftDisplay):
         browser = webdriver.Chrome('/usr/local/bin/chromedriver', desired_capabilities=capabilities, options=options)
         browser.set_window_size(abovetustin_image_width, abovetustin_image_height)
 
-        print("getting web page {}".format(self.url))
+        print("Getting web page {}".format(self.url))
         browser.set_page_load_timeout(15)
         browser.get(self.url)
 
         # Need to wait for the page to load
         timeout = g_request_timeout
-        print("waiting for page to load...")
+        print("Waiting for page to load...")
         wait = WebDriverWait(browser, timeout)
         try:
             element = wait.until(EC.element_to_be_clickable((By.ID, 'dump1090_version')))
@@ -144,7 +144,7 @@ class Dump1090Display(AircraftDisplay):
             util.error('Saved screenshot at timeout.png')
             raise
 
-        print("reset map:")
+        print("Reset map")
         if usedeprecated:
             resetbutton = browser.find_elements_by_xpath('//*[contains(@title,"Reset Map")]')
         else:
@@ -152,7 +152,7 @@ class Dump1090Display(AircraftDisplay):
         resetbutton[0].click()
 
         # Zoom in on the map. If you need more zoom, uncomment some of the zoomin.click().
-        print("zoom in...")
+        print("Zoom in...")
         try:
             # First look for the Open Layers map zoom button.
             if usedeprecated:
@@ -185,14 +185,14 @@ class Dump1090Display(AircraftDisplay):
                 element = self.browser.find_elements_by_xpath("//tr[@id='%s']" % text.lower())
             else:
                 element = self.browser.find_elements(By.XPATH, "//tr[@id='%s']" % text.lower())
-            print("number of elements found: %i" % len(element))
+            print("Number of elements found: %i" % len(element))
             if len(element) > 0:
-                print("clicking on {}!".format(text))
+                print("Clicking on {}!".format(text))
                 element[0].click()
                 time.sleep(1.5)  # if we don't wait a little bit the airplane icon isn't drawn.
                 return self.screenshot('toot.png')
             else:
-                print("couldn't find the object")
+                print("Couldn't find the object")
         except Exception as e:
             util.error("Could not click on airplane: {}".format(e))
             return None
@@ -207,16 +207,18 @@ class VRSDisplay(AircraftDisplay):
 
         Returns the browser on success, None on fail.
         '''
-        browser = webdriver.PhantomJS(desired_capabilities={'phantomjs.page.settings.resourceTimeout': '20000'})
+
+        # browser = webdriver.PhantomJS(desired_capabilities={'phantomjs.page.settings.resourceTimeout': '20000'})
+        browser = webdriver.Chrome('/usr/local/bin/chromedriver', desired_capabilities=capabilities, options=options)
         browser.set_window_size(abovetustin_image_width, abovetustin_image_height)
 
-        print("getting web page {}".format(self.url))
+        print("Getting web page {}".format(self.url))
         browser.set_page_load_timeout(15)
         browser.get(self.url)
 
         # Need to wait for the page to load
         timeout = g_request_timeout
-        print("waiting for page to load...")
+        print("Waiting for page to load...")
         wait = WebDriverWait(browser, timeout)
         element = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'vrsMenu')))
         self.browser = browser

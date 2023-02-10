@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 20230210
+
+- File `datasource.py`: disabled `map_parameters` since they don't work at all
+- Nitpicking on missing capital letters at start of `print()`.
+
 ## 20230209
 
 - File `screenshot.py`: fix "Loading image..." by explicitly setting `lang=en_US` and `user_agent=`.

@@ -190,7 +190,7 @@ if __name__ == "__main__":
 
     while True:
         if time.time() > lastReloadTime + 3600 and len(alarms) == 0:
-            print("one hour since last browser reload... reloading now")
+            print("One hour since last browser reload... reloading now")
             display.reload()
             lastReloadTime = time.time()
 
@@ -257,7 +257,7 @@ if __name__ == "__main__":
                 else:
                     havescreenshot = False
                     if display != None:
-                        print("time to create screenshot of {}:".format(a[0]))
+                        print("Time to create screenshot of {}:".format(a[0]))
                         hexcode = a[0].hex
                         hexcode = hexcode.replace(" ", "")
                         hexcode = hexcode.replace("~", "")
@@ -273,7 +273,7 @@ if __name__ == "__main__":
                     try:
                         Tweet(a[0], havescreenshot)
                     except Exception:
-                        print("exception in Toot():")
+                        print("Exception in Toot():")
                         traceback.print_exc()
                     finishedalarms.append(a[0].hex)
 
