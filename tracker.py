@@ -268,7 +268,7 @@ if __name__ == "__main__":
                     else:
                         faInfo = False
 
-                    print("Time to toot!!!!!")
+                    print("Time to toot!")
 
                     try:
                         Tweet(a[0], havescreenshot)

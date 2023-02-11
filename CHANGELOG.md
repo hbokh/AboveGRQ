@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## 20230212
+
+- File `config.sample.ini`: update FlightAware API information.
+- File `aircraftdata.py`: another try to fix attribute errors when `regis.text =` etc. is empty.
+
+## 20230211
+
+- More nitpicking on text.
+- File `aircraftdata.py`: try to fix attribute errors when `regis.text =` etc. is empty.
+
+```python
+Time to toot!
+Exception in Toot():
+Traceback (most recent call last):
+  File "/Users/username/.virtualenvs/AboveGRQ/tracker.py", line 274, in <module>
+    Tweet(a[0], havescreenshot)
+  File "/Users/username/.virtualenvs/AboveGRQ/tracker.py", line 61, in Tweet
+    templateArgs["regis"] = aircraftdata.regis(a.hex)
+  File "/Users/username/.virtualenvs/AboveGRQ/aircraftdata.py", line 15, in regis
+    regis.text = ""
+AttributeError: can't set attribute
+```
+
 ## 20230210
 
 - File `datasource.py`: disabled `map_parameters` since they don't work at all

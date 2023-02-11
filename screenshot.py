@@ -152,7 +152,7 @@ class Dump1090Display(AircraftDisplay):
         resetbutton[0].click()
 
         # Zoom in on the map. If you need more zoom, uncomment some of the zoomin.click().
-        print("Zoom in...")
+        print("Zoom in")
         try:
             # First look for the Open Layers map zoom button.
             if usedeprecated:
