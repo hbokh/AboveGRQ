@@ -8,7 +8,7 @@ def regis(hex):
     """
     Gets registration from hex
     """
-    if hex == None:
+    if hex is None:
         return None
     regis = requests.get(f"https://hexdb.io/hex-reg?hex={hex}")
     if regis.text == "n/a":
@@ -20,7 +20,7 @@ def plane(hex):
     """
     Gets plane type from hex
     """
-    if hex == None:
+    if hex is None:
         return None
     plane = requests.get(f"https://hexdb.io/hex-type?hex={hex}")
     if plane.text == "n/a":
@@ -32,7 +32,7 @@ def oper(hex):
     """
     Gets airline from hex
     """
-    if hex == None:
+    if hex is None:
         return None
     oper = requests.get(f"https://hexdb.io/hex-airline?hex={hex}")
     if oper.text == "n/a":
@@ -44,7 +44,7 @@ def route(flight):
     """
     Gets route from callsign
     """
-    if flight == None:
+    if flight is None:
         return None
     # ICAOroute = requests.get(f"https://hexdb.io/callsign-route?callsign={flight}")
     origin = requests.get(f"https://hexdb.io/callsign-origin_icao?callsign={flight}")

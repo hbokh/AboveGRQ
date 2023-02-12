@@ -9,12 +9,19 @@
 #
 # Original LICENSE from martinohanlon:
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+# and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 #
-# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions
+# of the Software.
 #
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+# TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+# CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
 
 
 import traceback
@@ -34,6 +41,7 @@ parser.read('config.ini')
 receiver_latitude = float(parser.get('receiver', 'latitude'))
 receiver_longitude = float(parser.get('receiver', 'longitude'))
 
+
 class FlightData():
     def __init__(self, data_url=None, parser=None):
         self.data_url = data_url
@@ -43,19 +51,19 @@ class FlightData():
 
     def refresh(self):
         try:
-            #open the data url
+            # open the data url
             self.req = urlopen(self.data_url)
 
-            #read data from the url
+            # read data from the url
             self.raw_data = self.req.read()
 
-            #load in the json
+            # load in the json
             self.json_data = json.loads(self.raw_data.decode())
 
-            #get time from json
+            # get time from json
             self.time = datetime.fromtimestamp(self.parser.time(self.json_data))
 
-            #load all the aircarft
+            # load all the aircarft
             self.aircraft = self.parser.aircraft_data(self.json_data, self.time)
 
         except Exception:
@@ -119,6 +127,7 @@ class AirCraftData():
             idents.append(self.flight)
         idents = [i for i in idents if i]
         return '/'.join(idents)
+
 
 class AircraftDataParser(object):
     def __init__(self):
@@ -197,7 +206,7 @@ class Dump1090DataParser(AircraftDataParser):
             if "lat" in a and "lon" in a:
                 dist = geomath.distance((receiver_latitude, receiver_longitude), (a["lat"], a["lon"]))
                 az = geomath.bearing((receiver_latitude, receiver_longitude), (a["lat"], a["lon"]))
-                el = math.degrees(math.atan(alt / (dist*5280)))
+                el = math.degrees(math.atan(alt / (dist * 5280)))
             speed = 0
             if "speed" in a:
                 speed = geomath.knot2mph(a["speed"])
@@ -246,11 +255,11 @@ if __name__ == "__main__":
         print("|---------+---------+-------+-------+------+-------+-------+-------+-------+-------+------|")
         sortedlist = []
         for a in flightdata.aircraft:
-            if a.lat == None or a.lon == None:
+            if a.lat is None or a.lon is None:
                 continue
             sortedlist.append(a)
 
-        sortedlist.sort(key=lambda x: x.distance) # actually do the sorting here
+        sortedlist.sort(key=lambda x: x.distance)  # actually do the sorting here
 
         for a in sortedlist:
             print("| {:<7} | {:^8}| {:>5} | {:>5} | {:>4} | {:>5} | {:>5} | {:>+5} | {:>5} | {:>5} | {:>4} |".format(

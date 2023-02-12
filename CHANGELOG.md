@@ -2,6 +2,8 @@
 
 ## 20230212
 
+- All Python files are now `flake8` valid.
+- Added GitHub Action for `flake8` linting.
 - File `config.sample.ini`: update FlightAware API information.
 - File `aircraftdata.py`: another try to fix attribute errors when `regis.text =` etc. is empty.
 

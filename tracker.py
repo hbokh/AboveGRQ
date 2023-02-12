@@ -106,17 +106,13 @@ def Tweet(a, havescreenshot):
     # conditional hashtags:
     hashtags = []
     if (
-        a.time.hour < 6
-        or a.time.hour >= 22
-        or (a.time.weekday() == 7 and a.time.hour < 8)
+        a.time.hour < 6 or a.time.hour >= 22 or (a.time.weekday() == 7 and a.time.hour < 8)
     ):
         hashtags.append(" #AfterHours")
     if a.altitude < 1000:
         hashtags.append(" #LowFlier")
     if (
-        a.altitude >= 1000
-        and a.altitude < 2500
-        and (templateArgs["heading"] == "S" or templateArgs["heading"] == "SW")
+        a.altitude >= 1000 and a.altitude < 2500 and (templateArgs["heading"] == "S" or templateArgs["heading"] == "SW")
     ):
         hashtags.append(" #ProbablyLanding")
     if a.altitude > 20000 and a.altitude < 35000:
@@ -207,12 +203,11 @@ if __name__ == "__main__":
         # loop on all the aircarft in the receiver
         for a in fd.aircraft:
             # if they don't have lat/lon or a heading skip them
-            if a.lat == None or a.lon == None or a.track == None:
+            if a.lat is None or a.lon is None or a.track is None:
                 continue
             # check to see if it's in the alarm zone:
             if (
-                a.distance < abovetustin_distance_alarm
-                or a.el > abovetustin_elevation_alarm
+                a.distance < abovetustin_distance_alarm or a.el > abovetustin_elevation_alarm
             ):
                 # add it to the current dictionary
                 current[a.hex] = a
@@ -256,7 +251,7 @@ if __name__ == "__main__":
                     alarms[h] = (a[0], a[1] + 1)
                 else:
                     havescreenshot = False
-                    if display != None:
+                    if display is not None:
                         print("Time to create screenshot of {}:".format(a[0]))
                         hexcode = a[0].hex
                         hexcode = hexcode.replace(" ", "")

@@ -36,7 +36,7 @@ options.binary_location = "/Applications/Chromium.app/Contents/MacOS/Chromium"  
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--lang=en_US")
-options.add_argument("--user-agent=Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25");
+options.add_argument("--user-agent=Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25")
 options.add_argument("--hide-scrollbars")
 options.add_argument("--headless")
 # options = webdriver.FirefoxOptions()
@@ -170,8 +170,8 @@ class Dump1090Display(AircraftDisplay):
             if zoomin:
                 zoomin = zoomin[0]
         zoomin.click()
-        #zoomin.click()
-        #zoomin.click()
+        # zoomin.click()
+        # zoomin.click()
         self.browser = browser
 
     def clickOnAirplane(self, text):
