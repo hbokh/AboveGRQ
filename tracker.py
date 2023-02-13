@@ -113,8 +113,8 @@ def Tweet(a, havescreenshot):
         hashtags.append(" #LowFlier")
     if (
         # a.altitude >= 1000 and a.altitude < 2500 and (templateArgs["heading"] == "S" or templateArgs["heading"] == "SW")
-        # Depends on location direction of possible nearby airport.
-        a.altitude >= 1000 and a.altitude < 2500 and (templateArgs["heading"] == "SW")
+        # Depends on the relative location of a possible nearby airport.
+        a.altitude >= 3500 and a.altitude < 8500 and (templateArgs["heading"] == "NE")
     ):
         hashtags.append(" #ProbablyLanding")
     if a.altitude > 20000 and a.altitude < 35000:
