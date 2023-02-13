@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 20230213
+
+- File `aircraftdata.py`: fixed attribute errors. Now also toot when hexdb.io gives a "n/a" (error 404).
+- File `screenshot.py`: personal tweak for `#ProbablyLanding` tag when plane approaches GRQ / EHGG for landing.
+
 ## 20230212
 
 - All Python files are now `flake8` valid.
