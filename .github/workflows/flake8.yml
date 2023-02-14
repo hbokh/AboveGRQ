@@ -16,5 +16,6 @@ jobs:
       - name: flake8 Lint
         uses: py-actions/flake8@v2
         with:
-          ignore: "E128,E501,W191,F401,F841"
+          ignore: "E501,F401,F841"
+          exclude: ".git,__pycache__"
           max-line-length: "127"

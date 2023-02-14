@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 20230214
+
+- Minor updates.
+
 ## 20230213
 
 - File `aircraftdata.py`: fixed attribute errors. Now also toot when hexdb.io gives a "n/a" (error 404).

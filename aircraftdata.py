@@ -12,7 +12,7 @@ def regis(hex):
         return None
     regis = requests.get(f"https://hexdb.io/hex-reg?hex={hex}")
     if regis.text == "n/a":
-        return ""
+        return "n/a"
     return regis.text
 
 
@@ -24,7 +24,7 @@ def plane(hex):
         return None
     plane = requests.get(f"https://hexdb.io/hex-type?hex={hex}")
     if plane.text == "n/a":
-        return ""
+        return "n/a"
     return plane.text
 
 
@@ -36,7 +36,7 @@ def oper(hex):
         return None
     oper = requests.get(f"https://hexdb.io/hex-airline?hex={hex}")
     if oper.text == "n/a":
-        return ""
+        return "n/a"
     return oper.text
 
 
