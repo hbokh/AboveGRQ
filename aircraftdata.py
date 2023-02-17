@@ -58,5 +58,5 @@ def route(flight):
     # route = destination.text + "-" + origin.text
     # print (route)
     if route == "n/a-n/a n/a to n/a":
-        route = ""
+        return "n/a"
     return route

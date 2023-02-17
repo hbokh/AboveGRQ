@@ -1,4 +1,8 @@
-# CHANGELOG
+# Changelog
+
+## 20230217
+
+- Minor updates.
 
 ## 20230214
 
