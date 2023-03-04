@@ -124,7 +124,7 @@ class Dump1090Display(AircraftDisplay):
         Now using Chromedriver
         '''
 
-        browser = webdriver.Chrome('/usr/local/bin/chromedriver', desired_capabilities=capabilities, options=options)
+        browser = webdriver.Chrome('/usr/local/bin/chromedriver', desired_capabilities=capabilities, options=options)  # CHANGE THIS!!
         browser.set_window_size(abovetustin_image_width, abovetustin_image_height)
 
         print("Getting web page {}".format(self.url))

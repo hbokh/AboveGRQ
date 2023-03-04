@@ -1,5 +1,10 @@
 # Changelog
 
+## 20230304
+
+- File `tracker.py`: set `files_root = Path.cwd()`.
+- Some more minor updates.
+
 ## 20230217
 
 - Minor updates.

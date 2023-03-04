@@ -112,9 +112,9 @@ def Tweet(a, havescreenshot):
     if a.altitude < 1000:
         hashtags.append(" #LowFlier")
     if (
+        # This one depends on the relative location of a possible nearby airport.
         # a.altitude >= 1000 and a.altitude < 2500 and (templateArgs["heading"] == "S" or templateArgs["heading"] == "SW")
-        # Depends on the relative location of a possible nearby airport.
-        a.altitude >= 3500 and a.altitude < 8500 and (templateArgs["heading"] == "NE")
+        a.altitude >= 3800 and a.altitude < 8500 and (templateArgs["heading"] == "NE")
     ):
         hashtags.append(" #ProbablyLanding")
     if a.altitude > 20000 and a.altitude < 35000:
@@ -128,7 +128,7 @@ def Tweet(a, havescreenshot):
     if a.speed >= 700:
         hashtags.append(" #SpeedDemon")
 
-    # add the conditional hashtags as long as there is room in 140 chars
+    # add the conditional hashtags as long as there is room in 500 chars
     for hash in hashtags:
         if len(tweet) + len(hash) <= 500:
             tweet += hash
@@ -144,7 +144,7 @@ def Tweet(a, havescreenshot):
         TOOT_FILES = [
             "toot.png",
         ]
-        files_root = Path("/Users/hbokh/.virtualenvs/AboveGRQ")  # CHANGE THIS!!
+        files_root = Path.cwd()
         media_ids = []
         for file in TOOT_FILES:
             test_file = files_root / file
