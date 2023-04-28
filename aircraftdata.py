@@ -1,6 +1,7 @@
-# Using the hexdb.io calls to get data from ICAO hex
-# Reference: https://hexdb.io/
+# Using the adsbdb.com calls to get data from ICAO hex
+# Reference: https://adsbdb.com
 
+import json
 import requests
 
 
@@ -10,10 +11,13 @@ def regis(hex):
     """
     if hex is None:
         return None
-    regis = requests.get(f"https://hexdb.io/hex-reg?hex={hex}")
-    if regis.text == "n/a":
+    regis = requests.get(f"https://api.adsbdb.com/v0/aircraft/{hex}")
+    data = json.loads(regis.text)
+    regis = data['response']['aircraft']['registration']
+    print(regis)
+    if regis == "unknown aircraft":
         return "n/a"
-    return regis.text
+    return regis
 
 
 def plane(hex):
@@ -22,10 +26,13 @@ def plane(hex):
     """
     if hex is None:
         return None
-    plane = requests.get(f"https://hexdb.io/hex-type?hex={hex}")
-    if plane.text == "n/a":
+    plane = requests.get(f"https://api.adsbdb.com/v0/aircraft/{hex}")
+    data = json.loads(plane.text)
+    type = data['response']['aircraft']['type']
+    print(type)
+    if type == "unknown aircraft":
         return "n/a"
-    return plane.text
+    return type
 
 
 def oper(hex):
@@ -34,10 +41,13 @@ def oper(hex):
     """
     if hex is None:
         return None
-    oper = requests.get(f"https://hexdb.io/hex-airline?hex={hex}")
-    if oper.text == "n/a":
+    oper = requests.get(f"https://api.adsbdb.com/v0/aircraft/{hex}")
+    data = json.loads(oper.text)
+    registered_owner = data['response']['aircraft']['registered_owner']
+    print(registered_owner)
+    if registered_owner == "unknown aircraft":
         return "n/a"
-    return oper.text
+    return registered_owner
 
 
 def route(flight):
@@ -46,17 +56,12 @@ def route(flight):
     """
     if flight is None:
         return None
-    # ICAOroute = requests.get(f"https://hexdb.io/callsign-route?callsign={flight}")
-    origin = requests.get(f"https://hexdb.io/callsign-origin_icao?callsign={flight}")
-    destination = requests.get(f"https://hexdb.io/callsign-des_icao?callsign={flight}")
-    origin_IATA = requests.get(f"https://hexdb.io/icao-iata?icao={origin.text}")
-    destination_IATA = requests.get(f"https://hexdb.io/icao-iata?icao={destination.text}")
-    origin_name = requests.get(f"https://hexdb.io/icao-airport?icao={origin.text}")
-    destination_name = requests.get(f"https://hexdb.io/icao-airport?icao={destination.text}")
-
-    route = origin_IATA.text + "-" + destination_IATA.text + " " + origin_name.text + " to " + destination_name.text
-    # route = destination.text + "-" + origin.text
-    # print (route)
+    route = requests.get(f"https://api.adsbdb.com/v0/callsign/{flight}")
+    data = json.loads(route.text)
+    origin = data['response']['flightroute']['origin']['name']
+    destination = data['response']['flightroute']['destination']['name']
+    route = origin + " to " + destination
+    print(route)
     if route == "n/a-n/a n/a to n/a":
         return "n/a"
     return route
