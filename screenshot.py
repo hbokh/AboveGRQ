@@ -212,8 +212,7 @@ class VRSDisplay(AircraftDisplay):
         Returns the browser on success, None on fail.
         '''
 
-        # browser = webdriver.PhantomJS(desired_capabilities={'phantomjs.page.settings.resourceTimeout': '20000'})
-        browser = webdriver.Chrome('/usr/local/bin/chromedriver', desired_capabilities=capabilities, options=options)
+        browser = webdriver.Chrome(executable_path=driver_path, desired_capabilities=capabilities, options=options)
         browser.set_window_size(abovetustin_image_width, abovetustin_image_height)
 
         print("Getting web page {}".format(self.url))
