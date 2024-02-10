@@ -1,5 +1,11 @@
 # Changelog
 
+## 20240210
+
+- Pin selenium to version 4.9.1
+- Paths to chromedriver and browser now in config.ini
+- pre-commit autoupdate
+
 ## 20230304
 
 - File `tracker.py`: set `files_root = Path.cwd()`.

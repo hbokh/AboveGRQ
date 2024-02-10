@@ -31,14 +31,18 @@ capabilities['chrome.page.settings.resourceTimeout'] = "20000"
 # capabilities = webdriver.DesiredCapabilities.FIREFOX.copy()
 # capabilities['firefox.page.settings.resourceTimeout'] = "20000"
 
+driver_path = parser.get("apps", "driver_path")
+browser_path = parser.get("apps", "browser_path")
+
 options = webdriver.ChromeOptions()
-options.binary_location = "/Applications/Chromium.app/Contents/MacOS/Chromium"  # CHANGE THIS!!
+options.binary_location = browser_path
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--lang=en_US")
 options.add_argument("--user-agent=Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25")
 options.add_argument("--hide-scrollbars")
 options.add_argument("--headless")
+
 # options = webdriver.FirefoxOptions()
 # options.add_argument("--headless")
 
@@ -124,7 +128,7 @@ class Dump1090Display(AircraftDisplay):
         Now using Chromedriver
         '''
 
-        browser = webdriver.Chrome('/usr/local/bin/chromedriver', desired_capabilities=capabilities, options=options)  # CHANGE THIS!!
+        browser = webdriver.Chrome(executable_path=driver_path, desired_capabilities=capabilities, options=options)
         browser.set_window_size(abovetustin_image_width, abovetustin_image_height)
 
         print("Getting web page {}".format(self.url))

@@ -7,8 +7,29 @@ The original Twitter dependencies have been replaced with basic [posting via the
 Uses [dump1090-fa](https://github.com/flightaware/dump1090) to track airplanes and toots whenever an airplane flies nearby Groningen Airport Eelde (IATA: **[GRQ](https://www.wikiwand.com/en/Groningen_Airport_Eelde)**, ICAO: **EHGG**).
 
 **WARNING**: this is [Frankencode](https://www.urbandictionary.com/define.php?term=Frankencode)!!\
-Currently it runs on my MacBook Pro (macOS 11.7 with Homebrew packages).\
-Look for `CHANGE THIS!!` entries in the code for personal changes that might need to be made.
+Currently it runs on my MacBook Pro M2 (macOS 14.3.1, with Homebrew packages).\
+
+## Install
+
+Install "AboveGRQ" in a Python virtualenv.\
+Copy the file `config.sample.ini` to `config.ini` and make all the necessary changes in that file.
+
+Run with `python3 tracker.py`:
+
+```console
+(AboveGRQ) hbokh@rpi4:~/.virtualenvs/AboveGRQ$ python3 tracker.py
+Will crop
+Map URL: http://rpi3.internal/tar1090/?enablelabels
+Getting web page http://rpi3.internal/tar1090/?enablelabels
+Waiting for page to load...
+Reset map
+Zoom in
+Zoom:  <selenium.webdriver.remote.webelement.WebElement (session="e110415a482f3c95ba83f03a39748aa9", element="EE46FE8C2DB9D4A4ED6CEA40F92E5510_element_34")>
+Now: 2024-02-10 16:27:50.600000
+Now: 2024-02-10 16:27:51.600000
+Now: 2024-02-10 16:27:52.700000
+--- cut --- 8< ---
+```
 
 ## Screenshot
 
@@ -18,10 +39,11 @@ Obligatory screenshot, taken from [Ivory](https://tapbots.com/ivory/) for iOS:
 
 ## Dependencies
 
-- Use Python 3.x and [venv](https://docs.python.org/3/library/venv.html).
+- Use Python 3.1x and [venv](https://docs.python.org/3/library/venv.html).
+- Use a Chrome based browser (Chromium, Brave).
 - Uses [tar1090](https://github.com/wiedehopf/tar1090) for ADSB message decoding, airplane tracking, and webserving.
 - Uses Mastodon API for tooting.
-- Uses [selenium](https://pypi.python.org/pypi/selenium) for screenshots with Chromedriver and Google Chromium.
+- Uses [selenium](https://pypi.python.org/pypi/selenium) for screenshots with Chromedriver.
 - Uses [pillow](https://python-pillow.org/) for image processing.
 - Uses [requests](https://pypi.org/project/requests/) for API calls.
 - Uses [Chromedriver](https://chromedriver.chromium.org/) for headless web browsing.
