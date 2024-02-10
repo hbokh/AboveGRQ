@@ -7,13 +7,12 @@ The original Twitter dependencies have been replaced with basic [posting via the
 Uses [dump1090-fa](https://github.com/flightaware/dump1090) to track airplanes and toots whenever an airplane flies nearby Groningen Airport Eelde (IATA: **[GRQ](https://www.wikiwand.com/en/Groningen_Airport_Eelde)**, ICAO: **EHGG**).
 
 **WARNING**: this is [Frankencode](https://www.urbandictionary.com/define.php?term=Frankencode)!!\
-Currently it runs on my MacBook Pro M2 (macOS 14.3.1, with Homebrew packages).\
+Currently it runs on my MacBook Pro M2 (macOS 14.3.1, with Homebrew packages).
 
 ## Install
 
 Install "AboveGRQ" in a Python virtualenv.\
-Copy the file `config.sample.ini` to `config.ini` and make all the necessary changes in that file.
-
+Copy the file `config.sample.ini` to `config.ini` and make all the necessary changes in that file.\
 Run with `python3 tracker.py`:
 
 ```console
