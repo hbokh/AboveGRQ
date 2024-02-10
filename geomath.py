@@ -124,7 +124,7 @@ def bearing(pointA, pointB):
     :Returns Type:
       float
     """
-    if (type(pointA) != tuple) or (type(pointB) != tuple):
+    if (type(pointA) is not tuple) or (type(pointB) is not tuple):
         raise TypeError("Only tuples are supported as arguments")
 
     lat1 = math.radians(pointA[0])
