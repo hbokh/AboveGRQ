@@ -163,7 +163,7 @@ class Dump1090Display(AircraftDisplay):
                 zoomin = browser.find_element_by_class_name('ol-zoom-in')
             else:
                 zoomin = browser.find_element(By.CLASS_NAME, 'ol-zoom-in')
-            print("Zoom: ", zoomin)
+            # print("Zoom: ", zoomin)
         except seleniumexceptions.NoSuchElementException as e:
             # Doesn't seem to be Open Layers, so look for the Google
             # maps zoom button.

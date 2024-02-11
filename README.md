@@ -23,7 +23,6 @@ Getting web page http://rpi3.internal/tar1090/?enablelabels
 Waiting for page to load...
 Reset map
 Zoom in
-Zoom:  <selenium.webdriver.remote.webelement.WebElement (session="e110415a482f3c95ba83f03a39748aa9", element="EE46FE8C2DB9D4A4ED6CEA40F92E5510_element_34")>
 Now: 2024-02-10 16:27:50.600000
 Now: 2024-02-10 16:27:51.600000
 Now: 2024-02-10 16:27:52.700000
