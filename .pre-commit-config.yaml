@@ -2,7 +2,7 @@
 repos:
   # Check the repo URL for description of hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: check-ast
       - id: check-executables-have-shebangs
@@ -13,6 +13,6 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/PyCQA/flake8
-    rev: 7.0.0
+    rev: 7.1.1
     hooks:
       - id: flake8
