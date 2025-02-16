@@ -12,6 +12,7 @@ from configparser import ConfigParser
 from string import Template
 import requests
 from pathlib import Path
+from atproto import Client, models
 
 import datasource
 import fa_api
@@ -43,9 +44,9 @@ fa_enable = parser.getboolean("flightaware", "fa_enable")
 fa_username = parser.get("flightaware", "fa_username")
 fa_api_key = parser.get("flightaware", "fa_api_key")
 
-# Mastodon variables.
-mastodon_host = parser.get("mastodon", "host")
-mastodon_access_token = parser.get("mastodon", "access_token")
+# Bluesky
+bsky_handle = parser.get("bsky", "handle")
+bsky_password = parser.get("bsky", "password")
 
 
 # Given an aircraft 'a' tweet / toot.
@@ -135,42 +136,32 @@ def Tweet(a, havescreenshot):
 
     # add the default hashtags as long as there is room
     for hash in parser.get("tweet", "default_hashtags").split(" "):
-        if len(tweet) + len(hash) <= 499:
+        if len(tweet) + len(hash) <= 300:
             tweet += " " + hash
 
-    # Send toot to Mastodon host
-    # Reference: https://roytang.net/2021/11/mastodon-api-python/
+    # Send to Bluesky
+    # Reference: https://github.com/MarshalX/atproto/blob/main/examples/send_image.py
     if havescreenshot:
         TOOT_FILES = [
             "toot.png",
         ]
-        files_root = Path.cwd()
-        media_ids = []
-        for file in TOOT_FILES:
-            test_file = files_root / file
-            data = {"description": "VRS screenshot " + file}
-            files = {"file": (file, test_file.open("rb"), "application/octet-stream")}
-            url = "%s/api/v1/media" % (mastodon_host)
-            r = requests.post(
-                url,
-                files=files,
-                headers={"Authorization": "Bearer %s" % (mastodon_access_token)},
-            )
-            json_data = r.json()
+    client = Client()
+    client.login(bsky_handle, bsky_password)
 
-            media_id = json_data["id"]
-            media_ids.append(media_id)
+    # replace the path to your image file
+    with open('toot.png', 'rb') as f:
+        img_data = f.read()
 
-            # After collecting the media ids, include them in the toot payload
-            data = {"status": tweet, "visibility": "public", "media_ids[]": media_ids}
+    # Add image aspect ratio to prevent default 1:1 aspect ratio
+    # Replace with your desired aspect ratio
+    aspect_ratio = models.AppBskyEmbedDefs.AspectRatio(height=800, width=780)
 
-            url = "%s/api/v1/statuses" % (mastodon_host)
-            r = requests.post(
-                url,
-                data=data,
-                headers={"Authorization": "Bearer %s" % (mastodon_access_token)},
-            )
-            json_data = r.json()
+    client.send_image(
+        text=tweet,
+        image=img_data,
+        image_alt='No ALT text available...',
+        image_aspect_ratio=aspect_ratio,
+    )
 
 
 if __name__ == "__main__":

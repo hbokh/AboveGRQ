@@ -1,13 +1,13 @@
 # ✈️ Above GRQ
 
-*An ADS-B Mastodon Bot, derived from [AboveTustin](https://github.com/kevinabrandon/AboveTustin) (a Twitter bot).*
+*An ADS-B Bot, derived from [AboveTustin](https://github.com/kevinabrandon/AboveTustin) (a Twitter bot).*
 
-The original Twitter dependencies have been replaced with basic [posting via the Mastodon API using Python](https://roytang.net/2021/11/mastodon-api-python/).
+Posts to Bluesky from wiedehopf/[tar1090](https://github.com/wiedehopf/tar1090).
 
 Uses [dump1090-fa](https://github.com/flightaware/dump1090) to track airplanes and toots whenever an airplane flies nearby Groningen Airport Eelde (IATA: **[GRQ](https://www.wikiwand.com/en/Groningen_Airport_Eelde)**, ICAO: **EHGG**).
 
 **WARNING**: this is [Frankencode](https://www.urbandictionary.com/define.php?term=Frankencode)!!\
-Currently it runs on my MacBook Pro M2 (macOS 14.3.1, with Homebrew packages).
+Currently it runs on my MacBook Pro M2 (macOS 15.3.1, with Homebrew packages).
 
 ## Install
 
@@ -38,13 +38,12 @@ Obligatory screenshot, taken from [Ivory](https://tapbots.com/ivory/) for iOS:
 ## Dependencies
 
 - Use Python 3.1x and [venv](https://docs.python.org/3/library/venv.html).
-- Use a Chrome based browser (Chromium, Brave).
+- Use a Firefox based browser.
 - Uses [tar1090](https://github.com/wiedehopf/tar1090) for ADSB message decoding, airplane tracking, and webserving.
-- Uses Mastodon API for tooting.
 - Uses [selenium](https://pypi.python.org/pypi/selenium) for screenshots with Chromedriver.
 - Uses [pillow](https://python-pillow.org/) for image processing.
 - Uses [requests](https://pypi.org/project/requests/) for API calls.
-- Uses [Chromedriver](https://chromedriver.chromium.org/) for headless web browsing.
+- Uses [geckodriver](https://github.com/mozilla/geckodriver) for headless web browsing.
 - Builds on a running [PiAware](https://flightaware.com/adsb/piaware/build) Raspberry Pi-based ADS-B receiver and decoder with MLAT support, with web server and local databases.
 
 ## Code borrowed from
@@ -52,11 +51,19 @@ Obligatory screenshot, taken from [Ivory](https://tapbots.com/ivory/) for iOS:
 - kevinabrandon/[AboveTustin](https://github.com/kevinabrandon/AboveTustin)
 - shbisson/[OverPutney](https://github.com/shbisson/OverPutney)
 - ladewig/[OverPutney](https://github.com/ladewig/OverPutney)
+- ggoodloff/[AnyFlightTracker](https://github.com/ggoodloff/AnyFlightTracker/)
 
 ## Todo
 
+- [ ] Make hashtags work with "facets".
+- [ ] Remove FlightAware API / FlightXML3 code.
+- [x] Replace Mastodon with Bluesky.
 - [x] Replace Twitter with Mastodon.
 - [x] Fix "Loading image..." in screenshots when in headless mode.
 - [x] Replace Google Chrome / Chromedriver.
 - [X] Use latest Python 3.x version.
-- [ ] Remove FlightAware API / FlightXML3 code.
+
+## Notes
+
+To enable tar1090 web screenshots the tar1090 `config.js` needs to be edited.
+Edit file `/usr/local/share/tar1090/html/config.js` and remark out (`//`) the ICAO line in the HideCols section.

@@ -5,10 +5,9 @@
 #
 # edit by simon@sandm.co.uk to use Chromedriver
 # edit by scott@ladewig.com to work for either Selenium 4.3.0+ or older version originally used
+# edit by hbokh to use geckodriver
 
-import sys
 import time
-import traceback
 from selenium import webdriver
 from selenium.common import exceptions as seleniumexceptions
 from selenium.webdriver.support.wait import WebDriverWait
@@ -17,6 +16,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from configparser import ConfigParser
 
 import util
+import datasource
 
 # Read the configuration file for this application.
 parser = ConfigParser()
@@ -25,37 +25,24 @@ parser.read('config.ini')
 # Assign AboveTustin variables.
 abovetustin_image_width = int(parser.get('abovetustin', 'image_width'))
 abovetustin_image_height = int(parser.get('abovetustin', 'image_height'))
+sleep_time = int(parser.get('abovetustin', 'sleep_time'))
+request_timeout = int(parser.get('abovetustin', 'request_timeout'))
 
-capabilities = webdriver.DesiredCapabilities.CHROME.copy()
-capabilities['chrome.page.settings.resourceTimeout'] = "20000"
-# capabilities = webdriver.DesiredCapabilities.FIREFOX.copy()
-# capabilities['firefox.page.settings.resourceTimeout'] = "20000"
+capabilities = webdriver.DesiredCapabilities.FIREFOX.copy()
+capabilities['firefox.page.settings.resourceTimeout'] = "20000"
 
 driver_path = parser.get("apps", "driver_path")
 browser_path = parser.get("apps", "browser_path")
 
-options = webdriver.ChromeOptions()
-options.binary_location = browser_path
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--lang=en_US")
-options.add_argument("--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:123.0) Gecko/20100101 Firefox/123.0")
-options.add_argument("--hide-scrollbars")
-options.add_argument("--headless")
 
-# options = webdriver.FirefoxOptions()
-# options.add_argument("--headless")
+# Using geckodriver
+options = webdriver.FirefoxOptions()
+options.add_argument("--headless")
 
 # Checking to see if we need to use Selenium 4.3.0+ commands or pre4.3.0.
 webdriverversion = (webdriver.__version__).split(".")
 webdriverversionmajor = int(webdriverversion[0])
 webdriverversionminor = int(webdriverversion[1])
-
-if (webdriverversionmajor == 4 and webdriverversionminor >= 3) or webdriverversionmajor > 4:
-    usedeprecated = False
-else:
-    usedeprecated = True
-
 
 #  Check for Crop settings
 if parser.has_section('crop'):
@@ -124,11 +111,9 @@ class Dump1090Display(AircraftDisplay):
         It sets up the map to the proper zoom level.
 
         Returns the browser on success, None on fail.
-
-        Now using Chromedriver
         '''
 
-        browser = webdriver.Chrome(executable_path=driver_path, desired_capabilities=capabilities, options=options)
+        browser = webdriver.Firefox(options=options)
         browser.set_window_size(abovetustin_image_width, abovetustin_image_height)
 
         print("Getting web page {}".format(self.url))
@@ -140,7 +125,7 @@ class Dump1090Display(AircraftDisplay):
         print("Waiting for page to load...")
         wait = WebDriverWait(browser, timeout)
         try:
-            element = wait.until(EC.element_to_be_clickable((By.ID, 'dump1090_version')))
+            element = wait.until(EC.element_to_be_clickable((By.ID, 'tar1090_version')))
         except seleniumexceptions.TimeoutException:
             util.error("Loading %s timed out.  Check that you're using the "
                        "correct driver in the .ini file." % (self.url,))
@@ -149,56 +134,60 @@ class Dump1090Display(AircraftDisplay):
             raise
 
         print("Reset map")
-        if usedeprecated:
-            resetbutton = browser.find_elements_by_xpath('//*[contains(@title,"Reset Map")]')
-        else:
-            resetbutton = browser.find_elements(By.XPATH, '//*[contains(@title,"Reset Map")]')
+        resetbutton = browser.find_elements(By.XPATH, '//*[contains(@title,"Reset Map")]')
         resetbutton[0].click()
 
         # Zoom in on the map. If you need more zoom, uncomment some of the zoomin.click().
         print("Zoom in")
         try:
             # First look for the Open Layers map zoom button.
-            if usedeprecated:
-                zoomin = browser.find_element_by_class_name('ol-zoom-in')
-            else:
-                zoomin = browser.find_element(By.CLASS_NAME, 'ol-zoom-in')
+            zoomin = browser.find_element(By.CLASS_NAME, 'ol-zoom-in')
             # print("Zoom: ", zoomin)
         except seleniumexceptions.NoSuchElementException as e:
             # Doesn't seem to be Open Layers, so look for the Google
             # maps zoom button.
-            if usedeprecated:
-                zoomin = browser.find_elements_by_xpath('//*[@title="Zoom in"]')
-            else:
-                zoomin = browser.find_elements(By.XPATH, '//*[@title="Zoom in"]')
+            zoomin = browser.find_elements(By.XPATH, '//*[@title="Zoom in"]')
             if zoomin:
                 zoomin = zoomin[0]
         zoomin.click()
-        # zoomin.click()
+        zoomin.click()
         # zoomin.click()
         self.browser = browser
 
-    def clickOnAirplane(self, text):
+# Screen capture only tracked plane
+# Image grabbed at time of alert not on preload
+
+    def clickOnAirplane(self, hex):
         '''
         clickOnAirplane()
         Clicks on the airplane with the name text, and then takes a screenshot
         '''
-        print(text)
+        browser = webdriver.Firefox(options=options)
+        browser.set_window_size(abovetustin_image_width, abovetustin_image_height)
+        browser.set_page_load_timeout(15)
+        self.browser = browser
+
         try:
-            if usedeprecated:
-                element = self.browser.find_elements_by_xpath("//tr[@id='%s']" % text.lower())
+            url = f"{self.url}?icao={hex}"
+            url += datasource.g_map_parameters
+            print(f"Opening {url}")
+            self.browser.get(url)
+            try:
+                time.sleep(sleep_time)
+                element = WebDriverWait(self.browser, request_timeout).until(
+                    EC.presence_of_element_located((By.ID, "selected_icao"))
+                )
+            except Exception as err:
+                print('Exception: %s' % err)
+            if self.browser:
+                time.sleep(sleep_time)
+                self.screenshot('toot.png')
+                browser.close()
             else:
-                element = self.browser.find_elements(By.XPATH, "//tr[@id='%s']" % text.lower())
-            print("Number of elements found: %i" % len(element))
-            if len(element) > 0:
-                print("Clicking on {}!".format(text))
-                element[0].click()
-                time.sleep(1.5)  # if we don't wait a little bit the airplane icon isn't drawn.
-                return self.screenshot('toot.png')
-            else:
-                print("Couldn't find the object")
-        except Exception as e:
-            util.error("Could not click on airplane: {}".format(e))
+                print('Could not find browser')
+                return None
+        except Exception as err:
+            print('Exception: %s' % err)
             return None
 
 
@@ -212,7 +201,7 @@ class VRSDisplay(AircraftDisplay):
         Returns the browser on success, None on fail.
         '''
 
-        browser = webdriver.Chrome(executable_path=driver_path, desired_capabilities=capabilities, options=options)
+        browser = webdriver.Firefox(executable_path=driver_path, desired_capabilities=capabilities, options=options)
         browser.set_window_size(abovetustin_image_width, abovetustin_image_height)
 
         print("Getting web page {}".format(self.url))
@@ -232,10 +221,7 @@ class VRSDisplay(AircraftDisplay):
         Clicks on the airplane with the name text, and then takes a screenshot
         '''
         try:
-            if usedeprecated:
-                aircraft = self.browser.find_element_by_xpath("//tr[@id=='%s']" % text)
-            else:
-                aircraft = self.browser.find_element(By.XPATH, "//tr[@id='%s']" % text)
+            aircraft = self.browser.find_element(By.XPATH, "//tr[@id='%s']" % text)
             aircraft.click()
             time.sleep(0.5)  # if we don't wait a little bit the airplane icon isn't drawn.
             show_on_map = self.browser.find_element_by_link_text('Show on map')
