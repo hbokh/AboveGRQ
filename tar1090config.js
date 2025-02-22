@@ -249,7 +249,7 @@ shareBaseUrl = 'https://globe.theairtraffic.com/';
 // Columns that have a // in front of them are shown.
 /* // remove this line to mofify columns (and the one at the end)
 HideCols = [
-	"#icao",
+//	"#icao",
 //	"#flag",
 //	"#flight",
 	"#registration",

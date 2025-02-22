@@ -40,7 +40,7 @@ Obligatory screenshot, taken from [Ivory](https://tapbots.com/ivory/) for iOS:
 - Use Python 3.1x and [venv](https://docs.python.org/3/library/venv.html).
 - Use a Firefox based browser.
 - Uses [tar1090](https://github.com/wiedehopf/tar1090) for ADSB message decoding, airplane tracking, and webserving.
-- Uses [selenium](https://pypi.python.org/pypi/selenium) for screenshots with Chromedriver.
+- Uses [selenium](https://pypi.python.org/pypi/selenium) for screenshots with geckodriver.
 - Uses [pillow](https://python-pillow.org/) for image processing.
 - Uses [requests](https://pypi.org/project/requests/) for API calls.
 - Uses [geckodriver](https://github.com/mozilla/geckodriver) for headless web browsing.
@@ -65,5 +65,5 @@ Obligatory screenshot, taken from [Ivory](https://tapbots.com/ivory/) for iOS:
 
 ## Notes
 
-To enable tar1090 web screenshots the tar1090 `config.js` needs to be edited.
-Edit file `/usr/local/share/tar1090/html/config.js` and remark out (`//`) the ICAO line in the HideCols section.
+To enable tar1090 web screenshots, the tar1090 `config.js` on the rpi needs to be edited.
+Edit file `/<dir>/tar1090/html/config.js` and remark out (`//`) the ICAO line in the `HideCols` section.

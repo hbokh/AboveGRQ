@@ -128,16 +128,20 @@ def Tweet(a, havescreenshot):
         hashtags.append(" #FlyingFast")
     if a.speed >= 700:
         hashtags.append(" #SpeedDemon")
+    if a.speed >= 1:
+        hashtags.append(" #AboveGRQ")  # Change me!
 
-    # add the conditional hashtags as long as there is room in 500 chars
+    # add the conditional hashtags as long as there is room in 300 chars
     for hash in hashtags:
-        if len(tweet) + len(hash) <= 500:
+        if len(tweet) + len(hash) <= 300:
             tweet += hash
 
     # add the default hashtags as long as there is room
-    for hash in parser.get("tweet", "default_hashtags").split(" "):
-        if len(tweet) + len(hash) <= 300:
-            tweet += " " + hash
+    # for hash in parser.get("tweet", "default_hashtags").split(" "):
+    #    if len(tweet) + len(hash) <= 300:
+    #        tweet += " " + hash
+
+    print(tweet)
 
     # Send to Bluesky
     # Reference: https://github.com/MarshalX/atproto/blob/main/examples/send_image.py
@@ -147,6 +151,35 @@ def Tweet(a, havescreenshot):
         ]
     client = Client()
     client.login(bsky_handle, bsky_password)
+
+    # Define your post text with multiple hashtags
+    post_text = tweet
+
+    # Encode the text to UTF-8 to calculate byte positions
+    utf8_text = post_text.encode('utf-8')
+
+    # List of hashtags to include
+    hashtags = hashtags
+
+    # Initialize an empty list to hold facets
+    facets = []
+
+    # Calculate byte positions and create a facet for each hashtag
+    for hashtag in hashtags:
+        hashtag_bytes = hashtag.encode('utf-8')
+        start = utf8_text.find(hashtag_bytes)
+        end = start + len(hashtag_bytes)
+        facet = {
+            "index": {
+                "byteStart": start,
+                "byteEnd": end,
+            },
+            "features": [{
+                "$type": "app.bsky.richtext.facet#tag",
+                "tag": hashtag[2:]  # Exclude the '#' symbol
+            }]
+        }
+        facets.append(facet)
 
     # replace the path to your image file
     with open('toot.png', 'rb') as f:
@@ -158,6 +191,7 @@ def Tweet(a, havescreenshot):
 
     client.send_image(
         text=tweet,
+        facets=facets,
         image=img_data,
         image_alt='No ALT text available...',
         image_aspect_ratio=aspect_ratio,
