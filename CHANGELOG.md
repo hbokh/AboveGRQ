@@ -1,5 +1,11 @@
 # Changelog
 
+## Februari 2025
+
+- Major updates
+- post to Bluesky instead of Mastodon
+- drop all Google tools and use Firefox / geckodriver
+
 ## 20240210
 
 - Pin selenium to version 4.9.1

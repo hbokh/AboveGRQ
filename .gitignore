@@ -9,8 +9,7 @@ config.ini
 nohup.out
 
 # ignore png images:
-toot.png
-timeout.png
+*.png
 
 # ignore the ghostscript log:
 *.log

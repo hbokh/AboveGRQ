@@ -10,15 +10,12 @@ import time
 from time import sleep
 from configparser import ConfigParser
 from string import Template
-import requests
 from pathlib import Path
 from atproto import Client, models
 
 import datasource
 import fa_api
-import flightdata
 import geomath
-import screenshot
 import aircraftdata
 
 # Read the configuration file for this application.
@@ -47,6 +44,9 @@ fa_api_key = parser.get("flightaware", "fa_api_key")
 # Bluesky
 bsky_handle = parser.get("bsky", "handle")
 bsky_password = parser.get("bsky", "password")
+
+crop_width = parser.getint('crop', 'crop_width')
+crop_height = parser.getint('crop', 'crop_height')
 
 
 # Given an aircraft 'a' tweet / toot.
@@ -147,7 +147,7 @@ def Tweet(a, havescreenshot):
     # Reference: https://github.com/MarshalX/atproto/blob/main/examples/send_image.py
     if havescreenshot:
         TOOT_FILES = [
-            "toot.png",
+            "screenshot.png",
         ]
     client = Client()
     client.login(bsky_handle, bsky_password)
@@ -182,12 +182,12 @@ def Tweet(a, havescreenshot):
         facets.append(facet)
 
     # replace the path to your image file
-    with open('toot.png', 'rb') as f:
+    with open('screenshot.png', 'rb') as f:
         img_data = f.read()
 
     # Add image aspect ratio to prevent default 1:1 aspect ratio
     # Replace with your desired aspect ratio
-    aspect_ratio = models.AppBskyEmbedDefs.AspectRatio(height=800, width=780)
+    aspect_ratio = models.AppBskyEmbedDefs.AspectRatio(height=crop_height, width=crop_width)
 
     client.send_image(
         text=tweet,

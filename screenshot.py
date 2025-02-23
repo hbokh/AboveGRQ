@@ -26,6 +26,7 @@ parser.read('config.ini')
 abovetustin_image_width = int(parser.get('abovetustin', 'image_width'))
 abovetustin_image_height = int(parser.get('abovetustin', 'image_height'))
 sleep_time = int(parser.get('abovetustin', 'sleep_time'))
+wait_time = int(parser.get('abovetustin', 'wait_time'))
 request_timeout = int(parser.get('abovetustin', 'request_timeout'))
 
 capabilities = webdriver.DesiredCapabilities.FIREFOX.copy()
@@ -173,15 +174,15 @@ class Dump1090Display(AircraftDisplay):
             print(f"Opening {url}")
             self.browser.get(url)
             try:
-                time.sleep(sleep_time)
+                time.sleep(wait_time)
                 element = WebDriverWait(self.browser, request_timeout).until(
                     EC.presence_of_element_located((By.ID, "selected_icao"))
                 )
             except Exception as err:
                 print('Exception: %s' % err)
             if self.browser:
-                time.sleep(sleep_time)
-                self.screenshot('toot.png')
+                time.sleep(wait_time)
+                self.screenshot('screenshot.png')
                 browser.close()
             else:
                 print('Could not find browser')
@@ -227,7 +228,7 @@ class VRSDisplay(AircraftDisplay):
             show_on_map = self.browser.find_element_by_link_text('Show on map')
             show_on_map.click()
             time.sleep(3.0)
-            return self.screenshot('toot.png')
+            return self.screenshot('screenshot.png')
         except Exception as e:
             util.error("Unable to click on airplane: {}'".format(e))
             return None
