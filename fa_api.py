@@ -30,7 +30,9 @@ def FlightInfo(ident, username, apiKey, verbose=0, results=10):
                 if "status" not in flight:
                     continue
                 if (
-                    flight["status"].startswith("On") or flight["status"].startswith("En") or flight["status"].startswith("In")
+                    flight["status"].startswith("On")
+                    or flight["status"].startswith("En")
+                    or flight["status"].startswith("In")
                 ):
                     output = {
                         "orig_name": flight["origin"]["airport_name"],

@@ -47,7 +47,7 @@ g_driver = abovetustin.get("driver", DEFAULT_DRIVER)
 g_data_url = parser.get("abovetustin", "data_url")
 g_map_baseurl = parser.get("abovetustin", "map_url")
 # g_map_parameters = parser.get('abovetustin', 'map_parameters')
-g_map_parameters = parser.get('abovetustin', 'map_params_screenshot')
+g_map_parameters = parser.get("abovetustin", "map_params_screenshot")
 # print ('Map Parameters',g_map_parameters)
 # g_map_url = g_map_baseurl+g_map_parameters
 g_map_url = g_map_baseurl

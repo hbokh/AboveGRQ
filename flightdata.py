@@ -35,14 +35,14 @@ from configparser import ConfigParser
 
 # Read the configuration file for this application.
 parser = ConfigParser()
-parser.read('config.ini')
+parser.read("config.ini")
 
 # Assign receiver variables.
-receiver_latitude = float(parser.get('receiver', 'latitude'))
-receiver_longitude = float(parser.get('receiver', 'longitude'))
+receiver_latitude = float(parser.get("receiver", "latitude"))
+receiver_longitude = float(parser.get("receiver", "longitude"))
 
 
-class FlightData():
+class FlightData:
     def __init__(self, data_url=None, parser=None):
         self.data_url = data_url
         self.parser = parser
@@ -71,28 +71,30 @@ class FlightData():
             traceback.print_exc()
 
 
-class AirCraftData():
-    def __init__(self,
-                 dhex,
-                 squawk,
-                 flight,
-                 registration,
-                 lat,
-                 lon,
-                 altitude,
-                 vert_rate,
-                 track,
-                 speed,
-                 messages,
-                 seen,
-                 mlat,
-                 nucp,
-                 seen_pos,
-                 rssi,
-                 dist,
-                 az,
-                 el,
-                 time):
+class AirCraftData:
+    def __init__(
+        self,
+        dhex,
+        squawk,
+        flight,
+        registration,
+        lat,
+        lon,
+        altitude,
+        vert_rate,
+        track,
+        speed,
+        messages,
+        seen,
+        mlat,
+        nucp,
+        seen_pos,
+        rssi,
+        dist,
+        az,
+        el,
+        time,
+    ):
         self.hex = dhex
         self.squawk = squawk
         self.flight = flight
@@ -115,18 +117,16 @@ class AirCraftData():
         self.time = time
 
     def __str__(self):
-        return '<{} {} dist={} el={}>'.format(
-            self.__class__.__name__,
-            self.ident_desc(),
-            self.distance,
-            self.el)
+        return "<{} {} dist={} el={}>".format(
+            self.__class__.__name__, self.ident_desc(), self.distance, self.el
+        )
 
     def ident_desc(self):
         idents = [self.hex, self.registration]
         if self.flight != self.registration:
             idents.append(self.flight)
         idents = [i for i in idents if i]
-        return '/'.join(idents)
+        return "/".join(idents)
 
 
 class AircraftDataParser(object):
@@ -142,60 +142,62 @@ class AircraftDataParser(object):
 
 class VRSDataParser(AircraftDataParser):
     def _parse_aircraft_data(self, a, time):
-        alt = a.get('Alt', 0)
+        alt = a.get("Alt", 0)
         dist = -1
         az = 0
         el = 0
-        if 'Lat' in a and 'Long' in a:
+        if "Lat" in a and "Long" in a:
             rec_pos = (receiver_latitude, receiver_longitude)
-            ac_pos = (a['Lat'], a['Long'])
+            ac_pos = (a["Lat"], a["Long"])
             dist = geomath.distance(rec_pos, ac_pos)
             az = geomath.bearing(rec_pos, ac_pos)
             el = math.degrees(math.atan(alt / (dist * 5280)))
         speed = 0
-        if 'Spd' in a:
-            speed = geomath.knot2mph(a['Spd'])
-        if 'PosTime' in a:
-            last_seen_time = datetime.fromtimestamp(a['PosTime'] / 1000.0)
+        if "Spd" in a:
+            speed = geomath.knot2mph(a["Spd"])
+        if "PosTime" in a:
+            last_seen_time = datetime.fromtimestamp(a["PosTime"] / 1000.0)
             seen = (time - last_seen_time).total_seconds()
         else:
             seen = 0
         ac_data = AirCraftData(
-            a.get('Icao', None).upper(),
-            a.get('Sqk', None),
-            a.get('Call', None),
-            a.get('Reg', None),
-            a.get('Lat', None),
-            a.get('Long', None),
+            a.get("Icao", None).upper(),
+            a.get("Sqk", None),
+            a.get("Call", None),
+            a.get("Reg", None),
+            a.get("Lat", None),
+            a.get("Long", None),
             alt,
-            a.get('Vsi', 0),
-            a.get('Trak', None),
+            a.get("Vsi", 0),
+            a.get("Trak", None),
             speed,
-            a.get('CMsgs', None),
+            a.get("CMsgs", None),
             seen,
-            a.get('Mlat', False),
+            a.get("Mlat", False),
             None,  # NUCP
             None,  # Seen pos
-            10.0 * math.log10(a.get('Sig', 0) / 255.0 + 1e-5),
+            10.0 * math.log10(a.get("Sig", 0) / 255.0 + 1e-5),
             dist,
             az,
             el,
-            time)
+            time,
+        )
         return ac_data
 
     def aircraft_data(self, json_data, time):
-        aircraft_list = [self._parse_aircraft_data(d, time) for d in json_data['acList']]
+        aircraft_list = [
+            self._parse_aircraft_data(d, time) for d in json_data["acList"]
+        ]
         return aircraft_list
 
     def time(self, json_data):
-        return json_data['stm'] / 1000.0
+        return json_data["stm"] / 1000.0
 
 
 class Dump1090DataParser(AircraftDataParser):
     def aircraft_data(self, json_data, time):
         aircraft_list = []
         for a in json_data["aircraft"]:
-
             alt = a["altitude"] if "altitude" in a else 0
             alt = a["alt_baro"] if "alt_baro" in a else 0
             if alt == "ground":
@@ -204,8 +206,12 @@ class Dump1090DataParser(AircraftDataParser):
             az = 0
             el = 0
             if "lat" in a and "lon" in a:
-                dist = geomath.distance((receiver_latitude, receiver_longitude), (a["lat"], a["lon"]))
-                az = geomath.bearing((receiver_latitude, receiver_longitude), (a["lat"], a["lon"]))
+                dist = geomath.distance(
+                    (receiver_latitude, receiver_longitude), (a["lat"], a["lon"])
+                )
+                az = geomath.bearing(
+                    (receiver_latitude, receiver_longitude), (a["lat"], a["lon"])
+                )
                 el = math.degrees(math.atan(alt / (dist * 5280)))
             speed = 0
             if "speed" in a:
@@ -235,13 +241,14 @@ class Dump1090DataParser(AircraftDataParser):
                 dist,
                 az,
                 el,
-                time)
+                time,
+            )
 
             aircraft_list.append(aircraftdata)
         return aircraft_list
 
     def time(self, json_data):
-        return json_data['now']
+        return json_data["now"]
 
 
 if __name__ == "__main__":
@@ -249,10 +256,14 @@ if __name__ == "__main__":
 
     flightdata = FlightData()
     while True:
-        os.system('clear')
-        print("Now: {}".format(flightdata.time.strftime('%Y-%m-%d %H:%M:%S')))
-        print("|  icao   | flight  | miles |   az  |  el  |  alt  | mi/h  | vert  | rssi  | mesgs | seen |")
-        print("|---------+---------+-------+-------+------+-------+-------+-------+-------+-------+------|")
+        os.system("clear")
+        print("Now: {}".format(flightdata.time.strftime("%Y-%m-%d %H:%M:%S")))
+        print(
+            "|  icao   | flight  | miles |   az  |  el  |  alt  | mi/h  | vert  | rssi  | mesgs | seen |"
+        )
+        print(
+            "|---------+---------+-------+-------+------+-------+-------+-------+-------+-------+------|"
+        )
         sortedlist = []
         for a in flightdata.aircraft:
             if a.lat is None or a.lon is None:
@@ -262,17 +273,20 @@ if __name__ == "__main__":
         sortedlist.sort(key=lambda x: x.distance)  # actually do the sorting here
 
         for a in sortedlist:
-            print("| {:<7} | {:^8}| {:>5} | {:>5} | {:>4} | {:>5} | {:>5} | {:>+5} | {:>5} | {:>5} | {:>4} |".format(
-                a.hex,
-                a.flight,
-                "%.1f" % a.distance,
-                "%.1f" % a.az,
-                "%.1f" % a.el,
-                a.altitude,
-                "%.1f" % a.speed,
-                a.vert_rate,
-                "%0.1f" % a.rssi,
-                a.messages,
-                "%.1f" % a.seen))
+            print(
+                "| {:<7} | {:^8}| {:>5} | {:>5} | {:>4} | {:>5} | {:>5} | {:>+5} | {:>5} | {:>5} | {:>4} |".format(
+                    a.hex,
+                    a.flight,
+                    "%.1f" % a.distance,
+                    "%.1f" % a.az,
+                    "%.1f" % a.el,
+                    a.altitude,
+                    "%.1f" % a.speed,
+                    a.vert_rate,
+                    "%0.1f" % a.rssi,
+                    a.messages,
+                    "%.1f" % a.seen,
+                )
+            )
         sleep(0.5)
         flightdata.refresh()

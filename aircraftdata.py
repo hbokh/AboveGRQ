@@ -50,11 +50,23 @@ def route(flight):
     origin = requests.get(f"https://hexdb.io/callsign-origin_icao?callsign={flight}")
     destination = requests.get(f"https://hexdb.io/callsign-des_icao?callsign={flight}")
     origin_IATA = requests.get(f"https://hexdb.io/icao-iata?icao={origin.text}")
-    destination_IATA = requests.get(f"https://hexdb.io/icao-iata?icao={destination.text}")
+    destination_IATA = requests.get(
+        f"https://hexdb.io/icao-iata?icao={destination.text}"
+    )
     origin_name = requests.get(f"https://hexdb.io/icao-airport?icao={origin.text}")
-    destination_name = requests.get(f"https://hexdb.io/icao-airport?icao={destination.text}")
+    destination_name = requests.get(
+        f"https://hexdb.io/icao-airport?icao={destination.text}"
+    )
 
-    route = origin_IATA.text + "-" + destination_IATA.text + " " + origin_name.text + " to " + destination_name.text
+    route = (
+        origin_IATA.text
+        + "-"
+        + destination_IATA.text
+        + " "
+        + origin_name.text
+        + " to "
+        + destination_name.text
+    )
     # route = destination.text + "-" + origin.text
     # print (route)
     if route == "n/a-n/a n/a to n/a":

@@ -21,6 +21,7 @@ include
 lib
 pyvenv.cfg
 share
+.ruff_cache
 
 # ignore other things that happen to be there:
 .DS_Store

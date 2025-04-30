@@ -95,7 +95,8 @@ def distance(pointA, pointB):
     dlon = lon2 - lon1
     dlat = lat2 - lat1
     a = (
-        math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+        math.sin(dlat / 2) ** 2
+        + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
     )
     c = 2 * math.asin(math.sqrt(a))
     r = 3956  # Radius of earth in miles. Use 6371 for kilometers

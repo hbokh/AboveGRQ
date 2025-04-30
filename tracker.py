@@ -10,7 +10,6 @@ import time
 from time import sleep
 from configparser import ConfigParser
 from string import Template
-from pathlib import Path
 from atproto import Client, models
 
 import datasource
@@ -45,8 +44,8 @@ fa_api_key = parser.get("flightaware", "fa_api_key")
 bsky_handle = parser.get("bsky", "handle")
 bsky_password = parser.get("bsky", "password")
 
-crop_width = parser.getint('crop', 'crop_width')
-crop_height = parser.getint('crop', 'crop_height')
+crop_width = parser.getint("crop", "crop_width")
+crop_height = parser.getint("crop", "crop_height")
 
 
 # Given an aircraft 'a' tweet / toot.
@@ -107,7 +106,9 @@ def Tweet(a, havescreenshot):
     # conditional hashtags:
     hashtags = []
     if (
-        a.time.hour < 6 or a.time.hour >= 22 or (a.time.weekday() == 7 and a.time.hour < 8)
+        a.time.hour < 6
+        or a.time.hour >= 22
+        or (a.time.weekday() == 7 and a.time.hour < 8)
     ):
         hashtags.append(" #AfterHours")
     if a.altitude < 1000:
@@ -146,9 +147,7 @@ def Tweet(a, havescreenshot):
     # Send to Bluesky
     # Reference: https://github.com/MarshalX/atproto/blob/main/examples/send_image.py
     if havescreenshot:
-        TOOT_FILES = [
-            "screenshot.png",
-        ]
+        pass
     client = Client()
     client.login(bsky_handle, bsky_password)
 
@@ -156,7 +155,7 @@ def Tweet(a, havescreenshot):
     post_text = tweet
 
     # Encode the text to UTF-8 to calculate byte positions
-    utf8_text = post_text.encode('utf-8')
+    utf8_text = post_text.encode("utf-8")
 
     # List of hashtags to include
     hashtags = hashtags
@@ -166,7 +165,7 @@ def Tweet(a, havescreenshot):
 
     # Calculate byte positions and create a facet for each hashtag
     for hashtag in hashtags:
-        hashtag_bytes = hashtag.encode('utf-8')
+        hashtag_bytes = hashtag.encode("utf-8")
         start = utf8_text.find(hashtag_bytes)
         end = start + len(hashtag_bytes)
         facet = {
@@ -174,26 +173,30 @@ def Tweet(a, havescreenshot):
                 "byteStart": start,
                 "byteEnd": end,
             },
-            "features": [{
-                "$type": "app.bsky.richtext.facet#tag",
-                "tag": hashtag[2:]  # Exclude the '#' symbol
-            }]
+            "features": [
+                {
+                    "$type": "app.bsky.richtext.facet#tag",
+                    "tag": hashtag[2:],  # Exclude the '#' symbol
+                }
+            ],
         }
         facets.append(facet)
 
     # replace the path to your image file
-    with open('screenshot.png', 'rb') as f:
+    with open("screenshot.png", "rb") as f:
         img_data = f.read()
 
     # Add image aspect ratio to prevent default 1:1 aspect ratio
     # Replace with your desired aspect ratio
-    aspect_ratio = models.AppBskyEmbedDefs.AspectRatio(height=crop_height, width=crop_width)
+    aspect_ratio = models.AppBskyEmbedDefs.AspectRatio(
+        height=crop_height, width=crop_width
+    )
 
     client.send_image(
         text=tweet,
         facets=facets,
         image=img_data,
-        image_alt='No ALT text available...',
+        image_alt="No ALT text available...",
         image_aspect_ratio=aspect_ratio,
     )
 
@@ -234,7 +237,8 @@ if __name__ == "__main__":
                 continue
             # check to see if it's in the alarm zone:
             if (
-                a.distance < abovetustin_distance_alarm or a.el > abovetustin_elevation_alarm
+                a.distance < abovetustin_distance_alarm
+                or a.el > abovetustin_elevation_alarm
             ):
                 # add it to the current dictionary
                 current[a.hex] = a
