@@ -1,4 +1,0 @@
-[flake8]
-extend-ignore=F401,F841
-exclude = .git,__pycache__
-max-line-length=127
