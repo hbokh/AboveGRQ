@@ -1,5 +1,11 @@
 # Changelog
 
+## 20251012
+
+- Pip updates
+- Fix broken link to `tar1090_version`
+- Replace tweet / toot with post
+
 ## Februari 2025
 
 - Major updates

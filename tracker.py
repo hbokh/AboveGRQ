@@ -30,7 +30,7 @@ abovetustin_elevation_alarm = float(
 )  # The angle in degrees that indicates if the airplane is overhead or not.
 abovetustin_wait_x_updates = int(
     parser.get("abovetustin", "wait_x_updates")
-)  # Number of updates to wait after the airplane has left the alarm zone before tweeting.
+)  # Number of updates to wait after the airplane has left the alarm zone before posting.
 abovetustin_sleep_time = float(
     parser.get("abovetustin", "sleep_time")
 )  # Time between each loop.
@@ -48,9 +48,9 @@ crop_width = parser.getint("crop", "crop_width")
 crop_height = parser.getint("crop", "crop_height")
 
 
-# Given an aircraft 'a' tweet / toot.
-# If we have a screenshot, upload it to Mastodon with the tweet.
-def Tweet(a, havescreenshot):
+# Given an aircraft 'a' post / skeet.
+# If we have a screenshot, upload it with the post.
+def Post(a, havescreenshot):
     # compile the template arguments
     templateArgs = dict()
     flight = a.flight or a.hex
@@ -276,7 +276,7 @@ if __name__ == "__main__":
                     )
                     found = True
                     break
-            # if it wasn't in the current set of aircraft, that means it's time to toot!
+            # if it wasn't in the current set of aircraft, that means it's time to post!
             if not found:
                 if a[1] < abovetustin_wait_x_updates:
                     alarms[h] = (a[0], a[1] + 1)
@@ -294,12 +294,12 @@ if __name__ == "__main__":
                     else:
                         faInfo = False
 
-                    print("Time to toot!")
+                    print("Time to post!")
 
                     try:
-                        Tweet(a[0], havescreenshot)
+                        Post(a[0], havescreenshot)
                     except Exception:
-                        print("Exception in Toot():")
+                        print("Exception in Post():")
                         traceback.print_exc()
                     finishedalarms.append(a[0].hex)
 

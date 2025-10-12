@@ -127,7 +127,7 @@ class Dump1090Display(AircraftDisplay):
         print("Waiting for page to load...")
         wait = WebDriverWait(browser, timeout)
         try:
-            wait.until(EC.element_to_be_clickable((By.ID, "tar1090_version")))
+            wait.until(EC.element_to_be_clickable((By.ID, "webinterface_link")))
         except seleniumexceptions.TimeoutException:
             util.error(
                 "Loading %s timed out.  Check that you're using the "
