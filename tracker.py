@@ -108,16 +108,14 @@ def Post(a, havescreenshot):
     if (
         a.time.hour < 6
         or a.time.hour >= 22
-        or (a.time.weekday() == 7 and a.time.hour < 8)
+        or (a.time.weekday() == 6 and a.time.hour < 8)
     ):
         hashtags.append(" #AfterHours")
     if a.altitude < 1000:
         hashtags.append(" #LowFlier")
-    if (
-        # This one depends on the relative location of a possible nearby airport.
-        # a.altitude >= 1000 and a.altitude < 2500 and (templateArgs["heading"] == "S" or templateArgs["heading"] == "SW")
-        a.altitude >= 3800 and a.altitude < 8500 and (templateArgs["heading"] == "NE")
-    ):
+    # This one depends on the relative location of a possible nearby airport.
+    # a.altitude >= 1000 and a.altitude < 2500 and (templateArgs["heading"] == "S" or templateArgs["heading"] == "SW")
+    if 3800 <= a.altitude < 8500 and templateArgs.get("heading") == "NE":
         hashtags.append(" #ProbablyLanding")
     if a.altitude > 20000 and a.altitude < 35000:
         hashtags.append(" #UpInTheClouds")

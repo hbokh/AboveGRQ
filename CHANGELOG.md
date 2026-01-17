@@ -1,5 +1,9 @@
 # Changelog
 
+## 20260117
+
+- Bugfixes, as suggested by AI / Copilot.
+
 ## 20251012
 
 - Pip updates

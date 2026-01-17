@@ -2,12 +2,12 @@
 
 *An ADS-B Bot, derived from [AboveTustin](https://github.com/kevinabrandon/AboveTustin) (a Twitter bot).*
 
-Posts to Bluesky from wiedehopf/[tar1090](https://github.com/wiedehopf/tar1090).
+Uses [dump1090-fa](https://github.com/flightaware/dump1090) to track airplanes and posts whenever an airplane flies nearby Groningen Airport Eelde (IATA: **[GRQ](https://www.wikiwand.com/en/Groningen_Airport_Eelde)**, ICAO: **EHGG**).
 
-Uses [dump1090-fa](https://github.com/flightaware/dump1090) to track airplanes and toots whenever an airplane flies nearby Groningen Airport Eelde (IATA: **[GRQ](https://www.wikiwand.com/en/Groningen_Airport_Eelde)**, ICAO: **EHGG**).
+Posts screenshots to Bluesky, taken from a local [tar1090](https://github.com/wiedehopf/tar1090) installation.
 
 **WARNING**: this is [Frankencode](https://www.urbandictionary.com/define.php?term=Frankencode)!!\
-Currently it runs on my MacBook Pro M2 (macOS 15.3.1, with Homebrew packages).
+Currently it runs on a RPi4 and on my MacBook Pro M2 (most recent macOS with Homebrew packages).
 
 ## Install
 
@@ -55,7 +55,7 @@ Obligatory screenshot, taken from [Ivory](https://tapbots.com/ivory/) for iOS:
 
 ## Todo
 
-- [ ] Make hashtags work with "facets".
+- [x] Make hashtags work with "facets".
 - [ ] Remove FlightAware API / FlightXML3 code.
 - [x] Replace Mastodon with Bluesky.
 - [x] Replace Twitter with Mastodon.

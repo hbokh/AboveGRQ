@@ -198,8 +198,15 @@ class Dump1090DataParser(AircraftDataParser):
     def aircraft_data(self, json_data, time):
         aircraft_list = []
         for a in json_data["aircraft"]:
-            alt = a["altitude"] if "altitude" in a else 0
-            alt = a["alt_baro"] if "alt_baro" in a else 0
+            alt_raw = a.get("alt_baro", a.get("altitude", 0))
+            # API may use string 'ground'
+            if isinstance(alt_raw, str) and alt_raw.lower() == "ground":
+                alt = 0.0
+            else:
+                try:
+                    alt = float(alt_raw)
+                except (TypeError, ValueError):
+                    alt = 0.0
             if alt == "ground":
                 alt = 0
             dist = -1
@@ -212,7 +219,14 @@ class Dump1090DataParser(AircraftDataParser):
                 az = geomath.bearing(
                     (receiver_latitude, receiver_longitude), (a["lat"], a["lon"])
                 )
-                el = math.degrees(math.atan(alt / (dist * 5280)))
+                try:
+                    if dist and dist > 0:
+                        # Ensure units are consistent (dist expected in miles -> 5280 ft/mile)
+                        el = math.degrees(math.atan(alt / (dist * 5280)))
+                    else:
+                        el = 0.0
+                except Exception:
+                    el = 0.0
             speed = 0
             if "speed" in a:
                 speed = geomath.knot2mph(a["speed"])
