@@ -22,12 +22,12 @@ import datasource
 parser = ConfigParser()
 parser.read("config.ini")
 
-# Assign AboveTustin variables.
-abovetustin_image_width = int(parser.get("abovetustin", "image_width"))
-abovetustin_image_height = int(parser.get("abovetustin", "image_height"))
-sleep_time = int(parser.get("abovetustin", "sleep_time"))
-wait_time = int(parser.get("abovetustin", "wait_time"))
-request_timeout = int(parser.get("abovetustin", "request_timeout"))
+# Assign AboveMe variables.
+aboveme_image_width = int(parser.get("aboveme", "image_width"))
+aboveme_image_height = int(parser.get("aboveme", "image_height"))
+sleep_time = int(parser.get("aboveme", "sleep_time"))
+wait_time = int(parser.get("aboveme", "wait_time"))
+request_timeout = int(parser.get("aboveme", "request_timeout"))
 
 capabilities = webdriver.DesiredCapabilities.FIREFOX.copy()
 capabilities["firefox.page.settings.resourceTimeout"] = "20000"
@@ -65,7 +65,7 @@ else:
     do_crop = False
 
 # Assign dump1090 variables.
-g_request_timeout = float(parser.get("abovetustin", "request_timeout"))
+g_request_timeout = float(parser.get("aboveme", "request_timeout"))
 
 
 class AircraftDisplay(object):
@@ -116,7 +116,7 @@ class Dump1090Display(AircraftDisplay):
         """
 
         browser = webdriver.Firefox(options=options)
-        browser.set_window_size(abovetustin_image_width, abovetustin_image_height)
+        browser.set_window_size(aboveme_image_width, aboveme_image_height)
 
         print("Getting web page {}".format(self.url))
         browser.set_page_load_timeout(15)
@@ -169,7 +169,7 @@ class Dump1090Display(AircraftDisplay):
         Clicks on the airplane with the name text, and then takes a screenshot
         """
         browser = webdriver.Firefox(options=options)
-        browser.set_window_size(abovetustin_image_width, abovetustin_image_height)
+        browser.set_window_size(aboveme_image_width, aboveme_image_height)
         browser.set_page_load_timeout(15)
         self.browser = browser
 
@@ -212,7 +212,7 @@ class VRSDisplay(AircraftDisplay):
             desired_capabilities=capabilities,
             options=options,
         )
-        browser.set_window_size(abovetustin_image_width, abovetustin_image_height)
+        browser.set_window_size(aboveme_image_width, aboveme_image_height)
 
         print("Getting web page {}".format(self.url))
         browser.set_page_load_timeout(15)

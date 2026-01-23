@@ -1,5 +1,10 @@
 # Changelog
 
+## 20260123
+
+- File `tracker.py`: rename Post() to post_aircraft_update()
+- Replace AboveTustin with AboveMe
+
 ## 20260117
 
 - Bugfixes, as suggested by AI / Copilot.

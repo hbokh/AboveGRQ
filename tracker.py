@@ -21,18 +21,18 @@ import aircraftdata
 parser = ConfigParser()
 parser.read("config.ini")
 
-# Assign AboveTustin variables.
-abovetustin_distance_alarm = float(
-    parser.get("abovetustin", "distance_alarm")
+# Assign AboveMe variables.
+aboveme_distance_alarm = float(
+    parser.get("aboveme", "distance_alarm")
 )  # The alarm distance in miles.
-abovetustin_elevation_alarm = float(
-    parser.get("abovetustin", "elevation_alarm")
+aboveme_elevation_alarm = float(
+    parser.get("aboveme", "elevation_alarm")
 )  # The angle in degrees that indicates if the airplane is overhead or not.
-abovetustin_wait_x_updates = int(
-    parser.get("abovetustin", "wait_x_updates")
+aboveme_wait_x_updates = int(
+    parser.get("aboveme", "wait_x_updates")
 )  # Number of updates to wait after the airplane has left the alarm zone before posting.
-abovetustin_sleep_time = float(
-    parser.get("abovetustin", "sleep_time")
+aboveme_sleep_time = float(
+    parser.get("aboveme", "sleep_time")
 )  # Time between each loop.
 
 # Assign FlightAware variables.
@@ -50,7 +50,14 @@ crop_height = parser.getint("crop", "crop_height")
 
 # Given an aircraft 'a' post / skeet.
 # If we have a screenshot, upload it with the post.
-def Post(a, havescreenshot):
+def post_aircraft_update(a, havescreenshot):
+    """
+    Post an aircraft update to Bluesky.
+
+    Args:
+        a: The aircraft object with flight data.
+        havescreenshot: True if a screenshot image is available.
+    """
     # compile the template arguments
     templateArgs = dict()
     flight = a.flight or a.hex
@@ -206,7 +213,7 @@ if __name__ == "__main__":
     # Indexed by it's hex code, each entry contains a tuple of
     # the aircraft data at the closest position so far, and a
     # counter.  Once the airplane is out of the alarm zone,
-    # the counter is incremented until we hit [abovetustin_wait_x_updates]
+    # the counter is incremented until we hit [aboveme_wait_x_updates]
     # (defined above), at which point we then Tweet
 
     fd = datasource.get_data_source()
@@ -218,7 +225,7 @@ if __name__ == "__main__":
             display.reload()
             lastReloadTime = time.time()
 
-        sleep(abovetustin_sleep_time)
+        sleep(aboveme_sleep_time)
         fd.refresh()
         if fd.time == lastTime:
             continue
@@ -234,10 +241,7 @@ if __name__ == "__main__":
             if a.lat is None or a.lon is None or a.track is None:
                 continue
             # check to see if it's in the alarm zone:
-            if (
-                a.distance < abovetustin_distance_alarm
-                or a.el > abovetustin_elevation_alarm
-            ):
+            if a.distance < aboveme_distance_alarm or a.el > aboveme_elevation_alarm:
                 # add it to the current dictionary
                 current[a.hex] = a
                 print(
@@ -276,7 +280,7 @@ if __name__ == "__main__":
                     break
             # if it wasn't in the current set of aircraft, that means it's time to post!
             if not found:
-                if a[1] < abovetustin_wait_x_updates:
+                if a[1] < aboveme_wait_x_updates:
                     alarms[h] = (a[0], a[1] + 1)
                 else:
                     havescreenshot = False
@@ -295,9 +299,9 @@ if __name__ == "__main__":
                     print("Time to post!")
 
                     try:
-                        Post(a[0], havescreenshot)
+                        post_aircraft_update(a[0], havescreenshot)
                     except Exception:
-                        print("Exception in Post():")
+                        print("Exception in post_aircraft_update():")
                         traceback.print_exc()
                     finishedalarms.append(a[0].hex)
 
