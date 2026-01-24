@@ -56,7 +56,7 @@ Obligatory screenshot, taken from [Ivory](https://tapbots.com/ivory/) for iOS:
 ## Todo
 
 - [x] Make hashtags work with "facets".
-- [ ] Remove FlightAware API / FlightXML3 code.
+- [x] Remove FlightAware API / FlightXML3 code.
 - [x] Replace Mastodon with Bluesky.
 - [x] Replace Twitter with Mastodon.
 - [x] Fix "Loading image..." in screenshots when in headless mode.

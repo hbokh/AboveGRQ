@@ -71,7 +71,7 @@ class FlightData:
             traceback.print_exc()
 
 
-class AirCraftData:
+class AircraftData:
     def __init__(
         self,
         dhex,
@@ -154,13 +154,13 @@ class VRSDataParser(AircraftDataParser):
             el = math.degrees(math.atan(alt / (dist * 5280)))
         speed = 0
         if "Spd" in a:
-            speed = geomath.knot2mph(a["Spd"])
+            speed = geomath.knots_to_mph(a["Spd"])
         if "PosTime" in a:
             last_seen_time = datetime.fromtimestamp(a["PosTime"] / 1000.0)
             seen = (time - last_seen_time).total_seconds()
         else:
             seen = 0
-        ac_data = AirCraftData(
+        ac_data = AircraftData(
             a.get("Icao", None).upper(),
             a.get("Sqk", None),
             a.get("Call", None),
@@ -229,13 +229,13 @@ class Dump1090DataParser(AircraftDataParser):
                     el = 0.0
             speed = 0
             if "speed" in a:
-                speed = geomath.knot2mph(a["speed"])
+                speed = geomath.knots_to_mph(a["speed"])
             if "gs" in a:
-                speed = geomath.knot2mph(a["gs"])
+                speed = geomath.knots_to_mph(a["gs"])
             if "mach" in a:
                 speed = geomath.mach2mph(a["mach"])
 
-            aircraftdata = AirCraftData(
+            aircraftdata = AircraftData(
                 a["hex"].upper() if "hex" in a else None,
                 a["squawk"] if "squawk" in a else None,
                 a["flight"] if "flight" in a else None,

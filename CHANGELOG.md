@@ -1,5 +1,10 @@
 # Changelog
 
+## 20260124
+
+- Fix inconsistent naming (snake_case vs camelCase)
+- Remove FlightAware API / FlightXML3 code
+
 ## 20260123
 
 - File `tracker.py`: rename Post() to post_aircraft_update()

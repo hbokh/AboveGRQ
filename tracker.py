@@ -13,7 +13,6 @@ from string import Template
 from atproto import Client, models
 
 import datasource
-import fa_api
 import geomath
 import aircraftdata
 
@@ -34,11 +33,6 @@ aboveme_wait_x_updates = int(
 aboveme_sleep_time = float(
     parser.get("aboveme", "sleep_time")
 )  # Time between each loop.
-
-# Assign FlightAware variables.
-fa_enable = parser.getboolean("flightaware", "fa_enable")
-fa_username = parser.get("flightaware", "fa_username")
-fa_api_key = parser.get("flightaware", "fa_api_key")
 
 # Bluesky
 bsky_handle = parser.get("bsky", "handle")
@@ -76,7 +70,7 @@ def post_aircraft_update(a, havescreenshot):
     templateArgs["alt_m"] = "%.1f" % geomath.ft2m(a.altitude)
     templateArgs["el"] = "%.1f" % a.el
     templateArgs["az"] = "%.1f" % a.az
-    templateArgs["heading"] = geomath.HeadingStr(a.track)
+    templateArgs["heading"] = geomath.heading_str(a.track)
     templateArgs["speed_mph"] = "%.1f" % a.speed
     templateArgs["speed_kmph"] = "%.1f" % geomath.mi2km(a.speed)
     templateArgs["speed_kts"] = "%.1f" % geomath.mi2nm(a.speed)
@@ -85,31 +79,8 @@ def post_aircraft_update(a, havescreenshot):
     templateArgs["vert_rate_ftpm"] = a.vert_rate
     templateArgs["vert_rate_mpm"] = "%.1f" % geomath.ft2m(a.vert_rate)
     templateArgs["rssi"] = a.rssi
-    if fa_enable and faInfo:
-        templateArgs["orig_name"] = faInfo["orig_name"]
-        templateArgs["dest_name"] = faInfo["dest_name"]
-        if faInfo["orig_alt"]:
-            templateArgs["orig_alt"] = faInfo["orig_alt"]
-        else:
-            templateArgs["orig_alt"] = faInfo["orig_code"]
-        if faInfo["dest_alt"]:
-            templateArgs["dest_alt"] = faInfo["dest_alt"]
-        else:
-            templateArgs["dest_alt"] = faInfo["dest_code"]
-        if faInfo["dest_city"]:
-            templateArgs["dest_city"] = faInfo["dest_city"]
-        if faInfo["orig_city"]:
-            templateArgs["orig_city"] = faInfo["orig_city"]
-        if templateArgs["orig_alt"] and templateArgs["dest_alt"]:
-            tweet = Template(parser.get("tweet", "fa_tweet_template")).substitute(
-                templateArgs
-            )
-        else:
-            tweet = Template(parser.get("tweet", "tweet_template")).substitute(
-                templateArgs
-            )
-    else:
-        tweet = Template(parser.get("tweet", "tweet_template")).substitute(templateArgs)
+
+    tweet = Template(parser.get("tweet", "tweet_template")).substitute(templateArgs)
     # conditional hashtags:
     hashtags = []
     if (
@@ -290,9 +261,6 @@ if __name__ == "__main__":
                         hexcode = hexcode.replace(" ", "")
                         hexcode = hexcode.replace("~", "")
                         havescreenshot = display.clickOnAirplane(hexcode)
-                    if fa_enable:
-                        print("Getting FlightAware flight details")
-                        faInfo = fa_api.FlightInfo(a[0].flight, fa_username, fa_api_key)
                     else:
                         faInfo = False
 

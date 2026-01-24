@@ -9,7 +9,7 @@
 import math
 
 
-def HeadingStr(heading):
+def heading_str(heading):
     """
     Gives a heading string given the heading float
     """
@@ -34,7 +34,7 @@ def HeadingStr(heading):
     return headstr
 
 
-def knot2mph(k):
+def knots_to_mph(k):
     """
     Converts knots to miles per hour.
     """
