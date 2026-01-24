@@ -24,7 +24,6 @@
 # DEALINGS IN THE SOFTWARE.
 
 
-import traceback
 from urllib.request import urlopen
 from urllib.error import URLError
 import json
@@ -35,6 +34,7 @@ from datetime import datetime
 from configparser import ConfigParser
 
 import logging
+
 logger = logging.getLogger(__name__)
 
 # Read the configuration file for this application.
@@ -69,7 +69,6 @@ class FlightData:
         except Exception as e:
             logger.error(f"Unexpected error refreshing flight data: {e}", exc_info=True)
             self.aircraft = []
-
 
 
 class AircraftData:
