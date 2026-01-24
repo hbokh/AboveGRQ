@@ -26,12 +26,16 @@
 
 import traceback
 from urllib.request import urlopen
+from urllib.error import URLError
 import json
 from time import sleep
 import geomath
 import math
 from datetime import datetime
 from configparser import ConfigParser
+
+import logging
+logger = logging.getLogger(__name__)
 
 # Read the configuration file for this application.
 parser = ConfigParser()
@@ -51,24 +55,21 @@ class FlightData:
 
     def refresh(self):
         try:
-            # open the data url
-            self.req = urlopen(self.data_url)
-
-            # read data from the url
+            self.req = urlopen(self.data_url, timeout=10)
             self.raw_data = self.req.read()
-
-            # load in the json
             self.json_data = json.loads(self.raw_data.decode())
-
-            # get time from json
             self.time = datetime.fromtimestamp(self.parser.time(self.json_data))
-
-            # load all the aircarft
             self.aircraft = self.parser.aircraft_data(self.json_data, self.time)
+        except (URLError, TimeoutError) as e:
+            logger.error(f"Network error fetching flight data: {e}", exc_info=True)
+            self.aircraft = []  # Return empty list instead of None
+        except json.JSONDecodeError as e:
+            logger.error(f"Invalid JSON from flight data source: {e}", exc_info=True)
+            self.aircraft = []
+        except Exception as e:
+            logger.error(f"Unexpected error refreshing flight data: {e}", exc_info=True)
+            self.aircraft = []
 
-        except Exception:
-            print("exception in FlightData.refresh():")
-            traceback.print_exc()
 
 
 class AircraftData:

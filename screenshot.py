@@ -5,7 +5,9 @@
 #
 # edit by simon@sandm.co.uk to use Chromedriver
 # edit by scott@ladewig.com to work for either Selenium 4.3.0+ or older version originally used
-# edit by hbokh to use geckodriver
+# edit by hbokh
+#  - to use geckodriver
+#  - DesiredCapabilities.FIREFOX is deprecated in Selenium 4.3.0+
 
 import time
 from selenium import webdriver
@@ -28,17 +30,13 @@ aboveme_image_height = int(parser.get("aboveme", "image_height"))
 sleep_time = int(parser.get("aboveme", "sleep_time"))
 wait_time = int(parser.get("aboveme", "wait_time"))
 request_timeout = int(parser.get("aboveme", "request_timeout"))
-
-capabilities = webdriver.DesiredCapabilities.FIREFOX.copy()
-capabilities["firefox.page.settings.resourceTimeout"] = "20000"
-
 driver_path = parser.get("apps", "driver_path")
 browser_path = parser.get("apps", "browser_path")
-
 
 # Using geckodriver
 options = webdriver.FirefoxOptions()
 options.add_argument("--headless")
+driver = webdriver.Firefox(options=options)  # No need for capabilities
 
 # Checking to see if we need to use Selenium 4.3.0+ commands or pre4.3.0.
 webdriverversion = (webdriver.__version__).split(".")
