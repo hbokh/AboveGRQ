@@ -207,7 +207,6 @@ class VRSDisplay(AircraftDisplay):
 
         browser = webdriver.Firefox(
             executable_path=driver_path,
-            desired_capabilities=capabilities,
             options=options,
         )
         browser.set_window_size(aboveme_image_width, aboveme_image_height)
