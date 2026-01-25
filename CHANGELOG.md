@@ -1,5 +1,9 @@
 # Changelog
 
+## 20260125
+
+- File `screenshot.py`: fix duplicate browser starting up
+
 ## 20260124
 
 - Fix inconsistent naming (snake_case vs camelCase)

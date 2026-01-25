@@ -36,7 +36,6 @@ browser_path = parser.get("apps", "browser_path")
 # Using geckodriver
 options = webdriver.FirefoxOptions()
 options.add_argument("--headless")
-driver = webdriver.Firefox(options=options)  # No need for capabilities
 
 # Checking to see if we need to use Selenium 4.3.0+ commands or pre4.3.0.
 webdriverversion = (webdriver.__version__).split(".")
