@@ -4,18 +4,18 @@
 # and then loops forever restarting the tracker program if it ever exits.
 
 cd $HOME/.virtualenvs/AboveGRQ || exit
-source bin/activate
+source .venv/bin/activate
 
 while :
 do
 	echo
-	echo '***** Restarting AboveGRQ ' `date --utc --rfc-3339=ns`
+	echo '***** Restarting AboveGRQ ' `date -u`
 	echo
 
-	python3 tracker.py
+	uv run tracker.py
 
 	echo
-	echo '***** AboveGRQ exited ' `date --utc --rfc-3339=ns`
+	echo '***** AboveGRQ exited ' `date -u`
 	echo
 
 	sleep 60  # Don't restart too quick so there is time to kill

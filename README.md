@@ -11,21 +11,23 @@ Currently it runs on a RPi4 and on my MacBook Pro M2 (most recent macOS with Hom
 
 ## Install
 
-Install "AboveGRQ" in a Python virtualenv.\
-Copy the file `config.sample.ini` to `config.ini` and make all the necessary changes in that file.\
-Run with `python3 tracker.py`:
+Checkout this repo as "AboveGRQ" and use [uv](https://docs.astral.sh/uv/) to setup a project env.
+
+Copy the file `config.sample.ini` to `config.ini` and make all the necessary changes in that file.
+
+Run with `uv run tracker.py`:
 
 ```console
-(AboveGRQ) hbokh@rpi4:~/.virtualenvs/AboveGRQ$ python3 tracker.py
+$ uv run tracker.py
 Will crop
-Map URL: http://rpi3.internal/tar1090/?enablelabels
-Getting web page http://rpi3.internal/tar1090/?enablelabels
+Map URL: http://rpi.lan/tar1090/
+Getting web page http://rpi.lan/tar1090/
 Waiting for page to load...
 Reset map
 Zoom in
-Now: 2024-02-10 16:27:50.600000
-Now: 2024-02-10 16:27:51.600000
-Now: 2024-02-10 16:27:52.700000
+Now: 2026-01-26 18:52:41.600000
+Now: 2026-01-26 18:52:42.700000
+Now: 2026-01-26 18:52:43.700000
 --- cut --- 8< ---
 ```
 
@@ -37,14 +39,14 @@ Obligatory screenshot, taken from [Ivory](https://tapbots.com/ivory/) for iOS:
 
 ## Dependencies
 
-- Use Python 3.1x and [venv](https://docs.python.org/3/library/venv.html).
+- Use Python 3.1x and [uv](https://docs.astral.sh/uv/).
 - Use a Firefox based browser.
 - Uses [tar1090](https://github.com/wiedehopf/tar1090) for ADSB message decoding, airplane tracking, and webserving.
 - Uses [selenium](https://pypi.python.org/pypi/selenium) for screenshots with geckodriver.
 - Uses [pillow](https://python-pillow.org/) for image processing.
 - Uses [requests](https://pypi.org/project/requests/) for API calls.
 - Uses [geckodriver](https://github.com/mozilla/geckodriver) for headless web browsing.
-- Builds on a running [PiAware](https://flightaware.com/adsb/piaware/build) Raspberry Pi-based ADS-B receiver and decoder with MLAT support, with web server and local databases.
+- A [PiAware](https://flightaware.com/adsb/piaware/build) Raspberry Pi-based ADS-B receiver & decoder with MLAT support, with web server and local databases.
 
 ## Code borrowed from
 
@@ -55,13 +57,14 @@ Obligatory screenshot, taken from [Ivory](https://tapbots.com/ivory/) for iOS:
 
 ## Todo
 
-- [x] Make hashtags work with "facets".
-- [x] Remove FlightAware API / FlightXML3 code.
-- [x] Replace Mastodon with Bluesky.
-- [x] Replace Twitter with Mastodon.
-- [x] Fix "Loading image..." in screenshots when in headless mode.
-- [x] Replace Google Chrome / Chromedriver.
 - [X] Use latest Python 3.x version.
+- [x] Replace Twitter with Mastodon.
+- [x] Make hashtags work with "facets".
+- [x] Replace Mastodon with Bluesky.
+- [x] Fix "Loading image..." in screenshots when in headless mode.
+- [x] Replace Google Chrome & Chromedriver.
+- [x] Remove FlightAware API / FlightXML3 code.
+- [ ] Fix additional hastags.
 
 ## Notes
 

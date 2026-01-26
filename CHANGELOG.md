@@ -1,5 +1,9 @@
 # Changelog
 
+## 20260126
+
+- Setup changed to use uv instead of Python venv
+
 ## 20260125
 
 - File `screenshot.py`: fix duplicate browser starting up

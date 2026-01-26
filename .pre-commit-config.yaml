@@ -9,7 +9,6 @@ repos:
       - id: check-merge-conflict
       - id: end-of-file-fixer
       - id: mixed-line-ending
-      - id: requirements-txt-fixer
       - id: trailing-whitespace
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
@@ -18,3 +17,9 @@ repos:
       - id: ruff
         args: [ --fix ]
       - id: ruff-format
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.9.26
+    hooks:
+      - id: uv-lock

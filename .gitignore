@@ -5,9 +5,7 @@ nohup.out
 *.log
 
 __pycache__
-bin
-include
-lib
-share
-pyvenv.cfg
+.envrc
 .ruff_cache
+.lock
+.venv

@@ -106,14 +106,14 @@ def post_aircraft_update(a, havescreenshot):
     if a.speed >= 700:
         hashtags.append(" #SpeedDemon")
     if a.speed >= 1:
-        hashtags.append(" #AboveGRQ")  # Change me!
+        hashtags.append(" #AboveGRQ")  # CHANGE ME!
 
     # add the conditional hashtags as long as there is room in 300 chars
     for hash in hashtags:
         if len(tweet) + len(hash) <= 300:
             tweet += hash
 
-    # add the default hashtags as long as there is room
+    # add the default hashtags as long as there is room - NEEDS FIX!
     # for hash in parser.get("tweet", "default_hashtags").split(" "):
     #    if len(tweet) + len(hash) <= 300:
     #        tweet += " " + hash
@@ -172,7 +172,7 @@ def post_aircraft_update(a, havescreenshot):
         text=tweet,
         facets=facets,
         image=img_data,
-        image_alt="No ALT text available...",
+        image_alt="No ALT text available.",
         image_aspect_ratio=aspect_ratio,
     )
 
