@@ -64,7 +64,7 @@ Obligatory screenshot, taken from [Ivory](https://tapbots.com/ivory/) for iOS:
 - [x] Fix "Loading image..." in screenshots when in headless mode.
 - [x] Replace Google Chrome & Chromedriver.
 - [x] Remove FlightAware API / FlightXML3 code.
-- [ ] Fix additional hastags.
+- [X] Fix additional hashtags.
 
 ## Notes
 

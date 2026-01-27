@@ -1,5 +1,11 @@
 # Changelog
 
+## 20260127
+
+- Started using AI --> Claude Code (CC)
+- CC: Fix additional hashtags
+- CC: Add pytests
+
 ## 20260126
 
 - Setup changed to use uv instead of Python venv
