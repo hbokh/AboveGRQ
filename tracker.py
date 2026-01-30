@@ -4,6 +4,7 @@
 # kevinabrandon@gmail.com
 #
 
+import os
 import sys
 import traceback
 import time
@@ -34,9 +35,11 @@ aboveme_sleep_time = float(
     parser.get("aboveme", "sleep_time")
 )  # Time between each loop.
 
-# Bluesky
-bsky_handle = parser.get("bsky", "handle")
-bsky_password = parser.get("bsky", "password")
+bsky_handle = os.getenv("BSKY_HANDLE")
+bsky_password = os.getenv("BSKY_PASSWORD")
+
+if not bsky_handle or not bsky_password:
+    raise RuntimeError("Missing Bluesky credentials! Check file .envrc.")
 
 crop_width = parser.getint("crop", "crop_width")
 crop_height = parser.getint("crop", "crop_height")

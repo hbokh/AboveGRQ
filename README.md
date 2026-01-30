@@ -13,7 +13,9 @@ Currently it runs on a RPi4 and on my MacBook Pro M2 (most recent macOS with Hom
 
 Checkout this repo as "AboveGRQ" and use [uv](https://docs.astral.sh/uv/) to setup a project env.
 
-Copy the file `config.sample.ini` to `config.ini` and make all the necessary changes in that file.
+Copy the file `config.example.ini` to `config.ini` and make all the necessary changes in that file.
+
+Set Blueksy credentials in a `.envrc` (or `.env`) file. See `.envrc.example`.
 
 Run with `uv run tracker.py`:
 

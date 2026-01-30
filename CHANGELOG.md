@@ -1,5 +1,10 @@
 # Changelog
 
+## 20260130
+
+- Move Bluesky credentials out of config.ini --> .envrc
+- Rename `config.sample.ini` to  `config.example.ini`
+
 ## 20260127
 
 - Started using AI --> Claude Code (CC)
@@ -68,7 +73,7 @@
 
 - All Python files are now `flake8` valid.
 - Added GitHub Action for `flake8` linting.
-- File `config.sample.ini`: update FlightAware API information.
+- File `config.example.ini`: update FlightAware API information.
 - File `aircraftdata.py`: another try to fix attribute errors when `regis.text =` etc. is empty.
 
 ## 20230211
@@ -112,7 +117,7 @@ AttributeError: can't set attribute
 
 ## 20230207
 
-- Update `config.sample.ini` with longer `tweet_template`.
+- Update `config.example.ini` with longer `tweet_template`.
 - Fix spelling in file `aircraftdata.py`.
 
 ## Pre commit

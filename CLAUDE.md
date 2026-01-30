@@ -37,7 +37,7 @@ AboveGRQ/
 ├── geomath.py           # Geographic calculations
 ├── util.py              # Utility functions
 ├── config.ini           # Configuration file (not in repo, copy from sample)
-├── config.sample.ini    # Sample configuration
+├── config.example.ini    # Sample configuration
 ├── tar1090config.js     # tar1090 web interface config
 ├── run_tracker.sh       # Restart wrapper script
 ├── pyproject.toml       # UV/Python project config
@@ -68,7 +68,7 @@ AboveGRQ/
 
 ### Initial Setup
 
-1. Copy `config.sample.ini` to `config.ini`
+1. Copy `config.example.ini` to `config.ini`
 2. Configure the following sections:
    - `[receiver]` - Your GPS coordinates (latitude/longitude)
    - `[aboveme]` - data_url and map_url for tar1090 instance

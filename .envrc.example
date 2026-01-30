@@ -1,0 +1,7 @@
+use python 3.14
+dotenv_if_exists .env
+
+export BSKY_HANDLE="changeme.bsky.social"
+export BSKY_PASSWORD="secretPassword"
+
+source .venv/bin/activate

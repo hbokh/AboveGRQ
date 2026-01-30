@@ -28,4 +28,8 @@ jobs:
         run: uv sync
 
       - name: Run tests
-        run: uv run pytest tests/ -v
+        env:
+          BSKY_HANDLE: test.bsky.social
+          BSKY_PASSWORD: testpassword
+        run: |
+          uv run pytest tests/
